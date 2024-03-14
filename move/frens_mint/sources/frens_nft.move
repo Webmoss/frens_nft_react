@@ -10,8 +10,8 @@ module frens_mint::frens_nft {
 
     
     // Part 2: Struct definitions
-    /// A Frens NFT is freely-transferable object. Owner can add new traits
-    /// to their fren at any time and even change the image to the your liking
+    /// A Frens NFT is freely-transferable object. Owner can make updates 
+    /// to their fren at any time and even change the image to their liking
     struct FrenNFT has key, store {
         id: UID,
         /// Name of the Fren
@@ -36,7 +36,7 @@ module frens_mint::frens_nft {
         frens_created: 0,
       };
       // Transfer the forge object to the module/package publisher
-      transfer::public_transfer(admin, tx_context::sender(ctx));
+      transfer::transfer(admin, tx_context::sender(ctx));
     }
 
     // ===== Events =====

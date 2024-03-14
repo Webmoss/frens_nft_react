@@ -12,6 +12,7 @@ import { useNetworkVariable } from "./networkConfig";
 export function Minter({ id }: { id: string }) {
   const client = useSuiClient();
   const currentAccount = useCurrentAccount();
+  
   const minterPackageId = useNetworkVariable("minterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const { data, isPending, error, refetch } = useSuiClientQuery("getObject", {
@@ -22,7 +23,7 @@ export function Minter({ id }: { id: string }) {
     },
   });
 
-  const executeMoveCall = (method: "name" | "description" | "traits" | "url") => {
+  const executeMoveCall = ( method: "name" | "description" | "traits" | "url" ) => {
     const txb = new TransactionBlock();
 
     if (method === "name") {
@@ -79,7 +80,7 @@ export function Minter({ id }: { id: string }) {
       <Heading size="3">Counter {id}</Heading>
 
       <Flex direction="column" gap="2">
-        <Text>Count: {getCounterFields(data.data)?.value}</Text>
+        <Text>Mint Count: {getCounterFields(data.data)?.value}</Text>
         <Flex direction="row" gap="2">
           {/* <Button onClick={() => executeMoveCall("increment")}>
             Increment

@@ -1,21 +1,17 @@
 import { TransactionBlock } from "@mysten/sui.js/transactions";
-import { Box, Button, Heading, Container, Flex } from "@radix-ui/themes";
-import {
-  useSignAndExecuteTransactionBlock,
-  useSuiClient,
-} from "@mysten/dapp-kit";
+import { Box, Button, Heading, Container, Flex, Text, Strong } from "@radix-ui/themes";
+import { useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "./networkConfig";
 
 import frensLogo from './assets/images/Frens-NFT-Logo.png';
 
-export function MintNft({
-  onCreated,
-}: {
-  onCreated: (id: string) => void;
-}) {
+export function MintNft({ count }: { count: number }) {
   const client = useSuiClient();
   const minterPackageId = useNetworkVariable("minterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
+
+  const mintCount = count;
+  console.log("mintCount", mintCount);
 
   return (
     <Container>
@@ -52,51 +48,61 @@ export function MintNft({
             />
           </Container>
         </Box>
-        <Box>
-          <Button
-            size="3"
-            onClick={() => {
-              create();
-            }}
-          >
-            Mint NFT
-          </Button>
-        </Box>        
+        
+        {mintCount <= 100 ? (
+          <Box>
+            <Button
+              size="3"
+              onClick={() => {
+                mint_nft();
+              }}
+            >
+              Mint NFT
+            </Button>
+          </Box>        
+        ) : ( 
+          <Box>
+            <Text as="p">Mint <Strong>Completed</Strong>.</Text>
+          </Box>        
+        )}
       </Flex>
     </Container>
   );
 
-  function create() {
-    const txb = new TransactionBlock();
+  function mint_nft() {
 
-    txb.moveCall({
-      arguments: [],
-      target: `${minterPackageId}::frens_mint::mint`,
-    });
+    if( mintCount <=100 ) {
+      const txb = new TransactionBlock();
 
-    signAndExecute(
-      {
-        transactionBlock: txb,
-        options: {
-          showEffects: true,
-          showObjectChanges: true,
+      txb.moveCall({
+        arguments: [],
+        target: `${minterPackageId}::frens_mint::mint`,
+      });
+
+      signAndExecute(
+        {
+          transactionBlock: txb,
+          options: {
+            showEffects: true,
+            showObjectChanges: true,
+          },
         },
-      },
-      {
-        onSuccess: (tx) => {
-          client
-            .waitForTransactionBlock({
-              digest: tx.digest,
-            })
-            .then(() => {
-              const objectId = tx.effects?.created?.[0]?.reference?.objectId;
+        {
+          onSuccess: (tx) => {
+            client
+              .waitForTransactionBlock({
+                digest: tx.digest,
+              })
+              .then(() => {
+                const objectId = tx.effects?.created?.[0]?.reference?.objectId;
 
-              if (objectId) {
-                onCreated(objectId);
-              }
-            });
+                if (objectId) {
+                  console.log("objectId", objectId);
+                }
+              });
+          },
         },
-      },
-    );
+      );
+    }
   }
 }
