@@ -7,7 +7,7 @@ import {
   useSuiClientQuery,
   useSuiClientContext
 } from "@mysten/dapp-kit";
-import { Box, Button, Grid, Container, Flex, Heading, Text, TextField, Strong } from "@radix-ui/themes";
+import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
 
