@@ -153,14 +153,6 @@ module frens_mint::frens_nft {
         nft.traits = string::utf8(new_traits)
     }
 
-    /// Some frens get new traits over time... 
-    /// owner of one can add a new trait to their fren at any time.
-    // public fun add_trait(
-    //     nft: &mut FrenNFT, 
-    //     _trait: String) {
-    //     vector::push_back(&mut nft._traits, _trait);
-    // }
-
     /// Update the `url` of `nft` to `new_url`
     public fun update_url(
         nft: &mut FrenNFT,
@@ -170,12 +162,19 @@ module frens_mint::frens_nft {
         nft.url = url::new_unsafe_from_bytes(new_url)
     }
 
+    /// Some frens get new traits over time... 
+    /// owner of one can add a new trait to their fren at any time.
+    // public fun add_trait(
+    //     nft: &mut FrenNFT, 
+    //     _trait: String) {
+    //     vector::push_back(&mut nft._traits, _trait);
+    // }
+
     /// Permanently delete `nft`
     public fun burn(nft: FrenNFT, _: &mut TxContext) {
         let FrenNFT { id, name: _, description: _, traits: _, url: _  } = nft;
         object::delete(id)
     }
-
 
     // #[test]
     // public fun test_frens_create() {

@@ -21,23 +21,24 @@ function App() {
   const minterPackageId = useNetworkVariable("minterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const currentAccount = useCurrentAccount();
+  
   const [page, setPage] = useState('mint');
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
 
   function mint_nft() {
     
-    console.log("Mint Nft Count: ", mintCount);
+    if( mintCount <=10 ) {
+      console.log("Mint Nft Count: ", mintCount);
 
-    // if( mintCount <=100 ) {
       const txb = new TransactionBlock();
 
       txb.moveCall({
         arguments: [
-          txb.pure.u64('GM Frens'),
-          txb.pure.u64('A Sui Frens NFT by LOR3LORD'),
-          txb.pure.u64('This is Fine'),
-          txb.pure.u64('ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3'),
+          txb.pure("GM Frens"),
+          txb.pure("A Sui Frens NFT by LOR3LORD"),
+          txb.pure("This is Fine"),
+          txb.pure("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3"),
         ],
         target: `${minterPackageId}::frens_mint::mint`,
       });
@@ -59,18 +60,20 @@ function App() {
               .then(() => {
                 const objectId = tx.effects?.created?.[0]?.reference?.objectId;
 
-                setDigest(tx.digest);
-                console.log("digest", tx.digest);
-
                 if (objectId) {
                   console.log("objectId", objectId);
-                  setMintCount( mintCount + 1 );
                 }
+
+                setDigest(tx.digest);
+                console.log("Digest", tx.digest);
+
+                setMintCount( mintCount + 1 );
+                console.log("Mint Count", mintCount);
               });
           },
         },
       );
-    // }
+    }
   }
 
   function OwnedObjects({ address }: { address: string }) {
@@ -135,10 +138,10 @@ function App() {
           </Heading>
         </Box>
         <Box>
-        <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
+        <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => { setPage("mint") }}
           >Mint</button>
-          <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
+          <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => { setPage("home") }}
           >Collection</button>
         </Box>
@@ -217,7 +220,7 @@ function App() {
                     </Container>
                   </Box>
 
-                  {mintCount <= 100 ? (
+                  {mintCount <= 10 ? (
                     <Box style={{margin: '20px'}}>
                       <Button
                         size="4"
@@ -230,7 +233,7 @@ function App() {
                     </Box>        
                   ) : ( 
                     <Box>
-                      <Text as="p">Mint <Strong>Completed</Strong>.</Text>
+                      <Text as="p">Max Mint <Strong>Completed</Strong>.</Text>
                     </Box>        
                   )}
 
