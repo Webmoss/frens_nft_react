@@ -7,7 +7,7 @@ import {
   useSuiClientQuery,
   useSuiClientContext
 } from "@mysten/dapp-kit";
-import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
+import { Box, Button, Grid, Container, Flex, Heading, Text, TextField, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
 
@@ -18,29 +18,37 @@ import frensLogo from './assets/images/Frens-NFT-Logo.png';
 function App() {
 
   const client = useSuiClient();
-  const minterPackageId = useNetworkVariable("minterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
+  const minterPackageId = useNetworkVariable("minterPackageId");
+  const collectionPackageId = useNetworkVariable("collectionPackageId");
   const currentAccount = useCurrentAccount();
   
   const [page, setPage] = useState('mint');
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
+  // const [description, setDescription] = useState('');
 
   function mint_nft() {
-    
     if( mintCount <=10 ) {
       console.log("Mint Nft Count: ", mintCount);
 
       const txb = new TransactionBlock();
+      const collection = txb.object(collectionPackageId);
+      const coin = txb.splitCoins(txb.gas, [1]);
+      
+      console.log("coin", coin);
+      txb.transferObjects([coin], '0x594f0feecd2a920c5ac642427ae21fb303b83bf36b2baf91df95b00794dae35a');
 
       txb.moveCall({
+        target: `${minterPackageId}::frens_nft::mint`,
         arguments: [
-          txb.pure("GM Frens"),
-          txb.pure("A Sui Frens NFT by LOR3LORD"),
-          txb.pure("This is Fine"),
-          txb.pure("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3"),
-        ],
-        target: `${minterPackageId}::frens_mint::mint`,
+          txb.pure.string("GM Frens"),
+          txb.pure.string("A Sui Frens NFT by LOR3LORD"),
+          txb.pure.string("This is Fine"),
+          txb.pure.string("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3"),
+          coin,
+          collection
+        ],        
       });
 
       signAndExecute(
@@ -75,6 +83,49 @@ function App() {
       );
     }
   }
+
+  // const updateDescriptionFunction = async (description: string = '') => {
+  //   try {
+  //     const txb = new TransactionBlock();
+  //     const collection = txb.object(collectionPackageId);
+      
+  //     txb.moveCall({
+  //       target: `${minterPackageId}::frens_mint::update_description`,
+  //       arguments: [
+  //         collection, // NFT collection obj
+  //         txb.pure.string(description),
+  //         txb.pure.u64(1) // Testing with Id 
+  //       ]
+  //     });
+
+  //     signAndExecute(
+  //       {
+  //         transactionBlock: txb,
+  //         options: {
+  //           showEffects: true,
+  //           showObjectChanges: true,
+  //         },
+  //       },
+  //       {
+  //         onSuccess: (tx) => {
+  //           client
+  //             .waitForTransactionBlock({
+  //               digest: tx.digest,
+  //             })
+  //             .then(() => {
+                
+  //               setDigest(tx.digest);
+  //               console.log("Digest", tx.digest);
+
+  //             });
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     // Handle the error
+  //     console.error(error);
+  //   }   
+  // }
 
   function OwnedObjects({ address }: { address: string }) {
     const { data } = useSuiClientQuery('getOwnedObjects', {
@@ -230,6 +281,21 @@ function App() {
                       >
                         Mint a Fren
                       </Button>
+                      {/* <br/>
+                      <TextField.Input 
+                        name="nftDescription" 
+                        placeholder="Enter your description" 
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
+                      />
+                      <Button
+                        size="4"
+                        onClick={() => {
+                          updateDescriptionFunction(description);
+                        }}
+                      >
+                        Update Description
+                      </Button> */}
                     </Box>        
                   ) : ( 
                     <Box>

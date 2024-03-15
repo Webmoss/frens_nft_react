@@ -1,60 +1,95 @@
 module frens_mint::frens_nft {
     
     // Part 1: Imports
-    use sui::url::{Self, Url};
-    use std::string;
-    use sui::object::{Self, ID, UID};
-    use sui::event;
-    use sui::transfer;
-    use sui::tx_context::{Self, TxContext};
-
+    // use std::option::{Self, Option};
+    use std::string::{Self, String};
     
+    use sui::transfer;
+    use sui::object::{Self, ID, UID};
+    use sui::tx_context::{Self, TxContext};
+    use sui::url::{Self, Url};
+    use sui::coin::{Self, Coin};
+    use sui::sui::SUI;
+    use sui::object_table::{Self, ObjectTable};
+    use sui::event;
+
+    // const NOT_THE_OWNER: u64 = 0;
+    const INSUFFICIENT_FUNDS: u64 = 1;
+    const MIN_CARD_COST: u64 = 1;
+
     // Part 2: Struct definitions
     /// A Frens NFT is freely-transferable object. Owner can make updates 
     /// to their fren at any time and even change the image to their liking
     struct FrenNFT has key, store {
         id: UID,
-        /// Name of the Fren
-        name: string::String,
+        /// Owner of the Frens NFT
+        owner: address,
+        /// Name of the Fren NFT
+        name: String,
         /// Description of the fren
-        description: string::String,
-        /// Grumpy or chill?
-        traits: string::String,
+        description: String,
+        /// Fren Traits Grumpy or chill?
+        traits: String,
         /// URL for the token
-        url: Url,
+        img_url: Url,
     }
 
-    struct Forge has key, store {
-      id: UID,
-      frens_created: u64,
+    struct FrensCollection has key {
+        id: UID,
+        owner: address,
+        nfts: ObjectTable<u64, FrenNFT>,
+        counter: u64
     }
 
     // Part 3: Module initializer to be executed when this module is published
     fun init(ctx: &mut TxContext) {
-      let admin = Forge {
-        id: object::new(ctx),
-        frens_created: 0,
-      };
-      // Transfer the forge object to the module/package publisher
-      transfer::transfer(admin, tx_context::sender(ctx));
+        transfer::share_object(
+            FrensCollection {
+                id: object::new(ctx),
+                owner: tx_context::sender(ctx),
+                nfts: object_table::new(ctx),
+                counter: 0,
+            }
+        );
     }
 
-    // ===== Events =====
     /// Event: emitted when a new Fren is minted.
     struct FrenMinted has copy, drop {
         // The Object ID of the NFT
-        object_id: ID,
+        id: ID,
         // The address of the NFT minter
-        minted_by: address,
+        owner: address,
         // The name of the NFT
-        name: string::String,
+        name: String,
         // The description of the NFT
-        description: string::String,
+        description: String,
         // The traits of the NFT
-        traits: string::String,
+        traits: String,
         // The url of the NFT
-        url: Url,
+        img_url: Url,
     }
+
+    // struct DescriptionUpdated has copy, drop {
+    //     // The Object ID of the NFT
+    //     id: ID,
+    //     // The address of the NFT minter
+    //     owner: address,
+    //     // The name of the NFT
+    //     name: String,
+    //     // The description of the NFT
+    //     description: String,
+    // }
+
+    // struct TraitsnUpdated has copy, drop {
+    //     // The Object ID of the NFT
+    //     id: ID,
+    //     // The address of the NFT minter
+    //     owner: address,
+    //     // The name of the NFT
+    //     name: String,
+    //     // The traits of the NFT
+    //     traits: String,
+    // }
 
     // ===== Public view functions =====
     // Part 4: Accessors required to read the struct attributes
@@ -76,11 +111,7 @@ module frens_mint::frens_nft {
 
     /// Get the NFT's `url`
     public fun url(nft: &FrenNFT): &Url {
-        &nft.url
-    }
-
-    public fun frens_created(self: &Forge): u64 {
-      self.frens_created
+        &nft.img_url
     }
 
     // ===== Entrypoints =====
@@ -91,32 +122,50 @@ module frens_mint::frens_nft {
         name: vector<u8>,
         description: vector<u8>,
         traits: vector<u8>,
-        url: vector<u8>,
+        img_url: vector<u8>,
+        payment: Coin<SUI>,
+        collection: &mut FrensCollection,
         ctx: &mut TxContext
     ) {
+        // Get the tokens transferred with the transaction
+        let value = coin::value(&payment); 
+
+        // Check if the sent amount is correct
+        assert!(value == MIN_CARD_COST, INSUFFICIENT_FUNDS); 
+
+        // Tranfer the tokens to FrensCollection Owner
+        transfer::public_transfer(payment, collection.owner); 
+
+        // Here we increase the counter before adding the NFT to the table
+        collection.counter = collection.counter + 1;
+
+        // Mint and send the Frens NFT to the caller
+        let sender = tx_context::sender(ctx);
+
         // Create the new NFT
         let nft = FrenNFT {
             id: object::new(ctx),
+            owner: sender,
             name: string::utf8(name),
             description: string::utf8(description),
             traits: string::utf8(traits),
-            url: url::new_unsafe_from_bytes(url),
+            img_url: url::new_unsafe_from_bytes(img_url),
         };
 
-        // Mint and send the NFT to the caller
-        let sender = tx_context::sender(ctx);
-
         event::emit(FrenMinted {
-            object_id: object::id(&nft),
-            minted_by: sender,
+            id: object::id(&nft),
+            owner: sender,
             name: nft.name,
             description: nft.description,
             traits: nft.traits,
-            url: nft.url,
+            img_url: nft.img_url,
         });
 
+        // Adding Frens NFT to the table
+        object_table::add(&mut collection.nfts, collection.counter, nft);
+
         // Transfer the NFT to the caller
-        transfer::public_transfer(nft, sender);
+        // transfer::public_transfer(nft, sender);
     }
 
     /// Transfer `nft` to `recipient`
@@ -144,6 +193,27 @@ module frens_mint::frens_nft {
         nft.description = string::utf8(new_description)
     }
 
+    // With this function the user can change their Frens NFT description
+    // public entry fun update_description(
+    //     collection: &mut FrensCollection, 
+    //     new_description: vector<u8>, 
+    //     id: u64, 
+    //     ctx: &mut TxContext
+    // ) {
+
+    //     let user_nft = object_table::borrow_mut(&mut collection.nfts, id);
+    //     assert!(tx_context::sender(ctx) == user_nft.owner, NOT_THE_OWNER);
+    //     let old_value = option::swap_or_fill(&mut user_nft.description, string::utf8(new_description));
+
+    //     event::emit(DescriptionUpdated {
+    //         id: object::id(user_nft),
+    //         name: user_nft.name,
+    //         owner: user_nft.owner,
+    //         description: string::utf8(new_description)
+    //     });
+    //     _ = old_value;
+    // }
+
     /// Update the `traits` of `nft` to `new_traits`
     public fun update_traits(
         nft: &mut FrenNFT,
@@ -153,13 +223,30 @@ module frens_mint::frens_nft {
         nft.traits = string::utf8(new_traits)
     }
 
+    // With this function the user can change their Frens NFT description
+    // public entry fun update_traits(collection: &mut FrensCollection, new_trait: vector<u8>, id: u64, ctx: &mut TxContext) {
+
+    //     let user_nft = object_table::borrow_mut(&mut collection.nfts, id);
+    //     assert!(tx_context::sender(ctx) == user_nft.owner, NOT_THE_OWNER);
+    //     let old_value = option::swap_or_fill(&mut user_nft.traits, string::utf8(new_trait));
+
+    //     event::emit(TraitsnUpdated {
+    //         id: object::id(user_nft),
+    //         name: user_nft.name,
+    //         owner: user_nft.owner,
+    //         traits: string::utf8(new_trait)
+    //     });
+    //     _ = old_value;
+    // }
+
+
     /// Update the `url` of `nft` to `new_url`
     public fun update_url(
         nft: &mut FrenNFT,
         new_url: vector<u8>,
         _: &mut TxContext
     ) {
-        nft.url = url::new_unsafe_from_bytes(new_url)
+        nft.img_url = url::new_unsafe_from_bytes(new_url)
     }
 
     /// Some frens get new traits over time... 
@@ -170,35 +257,27 @@ module frens_mint::frens_nft {
     //     vector::push_back(&mut nft._traits, _trait);
     // }
 
-    /// Permanently delete `nft`
-    public fun burn(nft: FrenNFT, _: &mut TxContext) {
-        let FrenNFT { id, name: _, description: _, traits: _, url: _  } = nft;
-        object::delete(id)
+    // This function returns the NFT based on the id provided
+    public fun get_nft_info(collection: &FrensCollection, id: u64): (
+        address,
+        String,
+        String,
+        String,
+        Url,
+    ) {
+        let nft = object_table::borrow(&collection.nfts, id);
+        (
+            nft.owner,
+            nft.name,
+            nft.description,
+            nft.traits,
+            nft.img_url,
+        )
     }
 
-    // #[test]
-    // public fun test_frens_create() {
-
-    //   // Create a dummy TxContext for testing
-    //   let ctx = tx_context::dummy();
-
-    //   // Create a Fren Dummy
-    //   let fren = FrenNFT {
-    //       id: object::new(&mut ctx),
-    //       name: utf8(b"Fren Moose"),
-    //       description: utf8(b"Fren moose built this city"),
-    //       traits: utf8(b"Super Trait"),
-    //       url: utf8(b"https://ibb.co/9YqmL77"),
-    //   };
-
-    //   // Check if accessor functions return correct values
-    //   assert!(name(&fren) == utf8(b"Fren Moose") 
-    //     && description(&fren) == utf8(b"Fren moose built this city") 
-    //     && traits(&fren) == utf8(b"Super Trait")
-    //     && url(&fren) == utf8(b"https://ibb.co/9YqmL77"), 1);
-
-    //   // Create a dummy address and transfer the fren
-    //   let dummy_address = @0xCAFE;
-    //   transfer::transfer(fren, dummy_address);
-    // }
+    /// Permanently delete `nft`
+    public fun burn(nft: FrenNFT, _: &mut TxContext) {
+        let FrenNFT { id, owner: _, name: _, description: _, traits: _, img_url: _  } = nft;
+        object::delete(id)
+    }
 }
