@@ -20,7 +20,8 @@ function App() {
   const client = useSuiClient();
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const minterPackageId = useNetworkVariable("minterPackageId");
-  const collectionPackageId = useNetworkVariable("collectionPackageId");
+  
+  // const collectionPackageId = useNetworkVariable("collectionPackageId");
   const currentAccount = useCurrentAccount();
   
   const [page, setPage] = useState('mint');
@@ -29,25 +30,24 @@ function App() {
   // const [description, setDescription] = useState('');
 
   function mint_nft() {
-    if( mintCount <=10 ) {
+    try {
       console.log("Mint Nft Count: ", mintCount);
 
       const txb = new TransactionBlock();
-      const collection = txb.object(collectionPackageId);
-      const coin = txb.splitCoins(txb.gas, [1]);
+
+      // const collection = txb.object(collectionPackageId);
+      // console.log("Collection", collection);
       
-      console.log("coin", coin);
-      txb.transferObjects([coin], '0x594f0feecd2a920c5ac642427ae21fb303b83bf36b2baf91df95b00794dae35a');
+      // /* Define payment coin */
+      // const [coin] = txb.splitCoins(txb.gas, [2]);
 
       txb.moveCall({
-        target: `${minterPackageId}::frens_nft::mint`,
+        target: `${minterPackageId}::frens::mint`,
         arguments: [
-          txb.pure.string("GM Frens"),
+          txb.pure.string("Frensly"),
           txb.pure.string("A Sui Frens NFT by LOR3LORD"),
-          txb.pure.string("This is Fine"),
-          txb.pure.string("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3"),
-          coin,
-          collection
+          txb.pure.string("BOSS Level"),
+          txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
         ],        
       });
 
@@ -81,7 +81,9 @@ function App() {
           },
         },
       );
-    }
+    } catch (error) {
+      console.error(error);
+    }   
   }
 
   // const updateDescriptionFunction = async (description: string = '') => {
@@ -271,7 +273,7 @@ function App() {
                     </Container>
                   </Box>
 
-                  {mintCount <= 10 ? (
+                  {mintCount <= 3 ? (
                     <Box style={{margin: '20px'}}>
                       <Button
                         size="4"
@@ -299,7 +301,16 @@ function App() {
                     </Box>        
                   ) : ( 
                     <Box>
-                      <Text as="p">Max Mint <Strong>Completed</Strong>.</Text>
+                      <Heading
+                      style={{
+                        fontSize: "22px",
+                        color: "#ffffff",
+                        marginTop: '20px',
+                        textAlign: "center"
+                      }}
+                    >
+                      WTF? You have maxed minted!<br />Your Mint is completed new <Strong>Fren</Strong>!
+                    </Heading>
                     </Box>        
                   )}
 

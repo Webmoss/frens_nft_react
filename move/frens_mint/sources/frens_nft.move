@@ -18,6 +18,13 @@ module frens_mint::frens_nft {
     const MIN_CARD_COST: u64 = 1;
 
     // Part 2: Struct definitions
+    struct FrensCollection has key {
+        id: UID,
+        owner: address,
+        nfts: ObjectTable<u64, FrenNFT>,
+        counter: u64
+    }
+
     /// A Frens NFT is freely-transferable object. Owner can make updates 
     /// to their fren at any time and even change the image to their liking
     struct FrenNFT has key, store {
@@ -32,13 +39,6 @@ module frens_mint::frens_nft {
         traits: String,
         /// URL for the token
         img_url: Url,
-    }
-
-    struct FrensCollection has key {
-        id: UID,
-        owner: address,
-        nfts: ObjectTable<u64, FrenNFT>,
-        counter: u64
     }
 
     // Part 3: Module initializer to be executed when this module is published
@@ -281,3 +281,46 @@ module frens_mint::frens_nft {
         object::delete(id)
     }
 }
+
+//     #[test_only]
+//     module frens_mint::frens_nftTests {
+//     use frens_mint::frens_nft::{Self, FrenNFT};
+//     use sui::test_scenario as ts;
+//     use sui::transfer;
+//     use std::string;
+//     use sui::coin::{Self};
+//     use sui::sui::SUI;
+
+//     #[test]
+//     fun mint_transfer_update() {
+//         let addr1 = @0xA;
+//         let addr2 = @0xB;
+//         // create the NFT
+//         let scenario = ts::begin(addr1);
+//         {
+//             let coin = coin::mint_for_testing<SUI>(10_000_000_000, ts::ctx(&mut scenario));
+//             frens_nft::mint(b"test", b"a test", b"a test", b"https://www.sui.io", coin, 0xbace50bb4e1369c302fab17e27a961b99b321848f0472672a4f7bca3e54fd01b, ts::ctx(&mut scenario))
+//         };
+//         // send it from A to B
+//         ts::next_tx(&mut scenario, addr1);
+//         {
+//             let nft = ts::take_from_sender<FrenNFT>(&scenario);
+//             transfer::public_transfer(nft, addr2);
+//         };
+//         // update its description
+//         ts::next_tx(&mut scenario, addr2);
+//         {
+//             let nft = ts::take_from_sender<FrenNFT>(&scenario);
+//             frens_nft::update_description(&mut nft, b"a new description", ts::ctx(&mut scenario)) ;
+//             assert!(*string::bytes(frens_nft::description(&nft)) == b"a new description", 0);
+//             ts::return_to_sender(&scenario, nft);
+//         };
+//         // burn it
+//         ts::next_tx(&mut scenario, addr2);
+//         {
+//             let nft = ts::take_from_sender<FrenNFT>(&scenario);
+//             frens_nft::burn(nft, ts::ctx(&mut scenario))
+//         };
+//         ts::end(scenario);
+//     }
+// }
