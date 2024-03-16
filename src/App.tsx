@@ -20,27 +20,15 @@ function App() {
   const client = useSuiClient();
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const minterPackageId = useNetworkVariable("minterPackageId");
-  
-  // const collectionPackageId = useNetworkVariable("collectionPackageId");
   const currentAccount = useCurrentAccount();
-  
   const [page, setPage] = useState('mint');
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
-  // const [description, setDescription] = useState('');
 
   function mint_nft() {
     try {
       console.log("Mint Nft Count: ", mintCount);
-
       const txb = new TransactionBlock();
-
-      // const collection = txb.object(collectionPackageId);
-      // console.log("Collection", collection);
-      
-      // /* Define payment coin */
-      // const [coin] = txb.splitCoins(txb.gas, [2]);
-
       txb.moveCall({
         target: `${minterPackageId}::frens::mint`,
         arguments: [
@@ -86,52 +74,9 @@ function App() {
     }   
   }
 
-  // const updateDescriptionFunction = async (description: string = '') => {
-  //   try {
-  //     const txb = new TransactionBlock();
-  //     const collection = txb.object(collectionPackageId);
-      
-  //     txb.moveCall({
-  //       target: `${minterPackageId}::frens_mint::update_description`,
-  //       arguments: [
-  //         collection, // NFT collection obj
-  //         txb.pure.string(description),
-  //         txb.pure.u64(1) // Testing with Id 
-  //       ]
-  //     });
-
-  //     signAndExecute(
-  //       {
-  //         transactionBlock: txb,
-  //         options: {
-  //           showEffects: true,
-  //           showObjectChanges: true,
-  //         },
-  //       },
-  //       {
-  //         onSuccess: (tx) => {
-  //           client
-  //             .waitForTransactionBlock({
-  //               digest: tx.digest,
-  //             })
-  //             .then(() => {
-                
-  //               setDigest(tx.digest);
-  //               console.log("Digest", tx.digest);
-
-  //             });
-  //         },
-  //       },
-  //     );
-  //   } catch (error) {
-  //     // Handle the error
-  //     console.error(error);
-  //   }   
-  // }
-
   function OwnedObjects({ address }: { address: string }) {
     const { data } = useSuiClientQuery('getOwnedObjects', {
-       owner: address,
+      owner: address,
     });
     if (!data) {
       return null;
@@ -226,20 +171,6 @@ function App() {
          </Box>
         ) : (
           <Box>
-            {/* {currentAccount ? (
-              counterId ? (
-                <Minter id={counterId} />
-              ) : (
-                <MintNft
-                  onCreated={(id) => {
-                    window.location.hash = id;
-                    setCounter(id);
-                  }}
-                />
-              )
-            ) : (
-              <Heading>Please connect your wallet</Heading>
-            )} */}
             {currentAccount ? (
               <Container>
                 <Flex
@@ -283,21 +214,6 @@ function App() {
                       >
                         Mint a Fren
                       </Button>
-                      {/* <br/>
-                      <TextField.Input 
-                        name="nftDescription" 
-                        placeholder="Enter your description" 
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                      />
-                      <Button
-                        size="4"
-                        onClick={() => {
-                          updateDescriptionFunction(description);
-                        }}
-                      >
-                        Update Description
-                      </Button> */}
                     </Box>        
                   ) : ( 
                     <Box>
