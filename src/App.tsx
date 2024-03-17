@@ -29,6 +29,8 @@ function App() {
   const [digest, setDigest] = useState('');
   const [nftObjectId, setNftObjectId] = useState('');
 
+  console.log("nftObjectId",nftObjectId);
+
   function mint_nft() {
     try {
       console.log("Mint Nft Count: ", mintCount);
