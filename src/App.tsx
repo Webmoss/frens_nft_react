@@ -1,5 +1,7 @@
 import { TransactionBlock } from "@mysten/sui.js/transactions";
-import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, useSuiClientQuery, useSuiClientContext } from "@mysten/dapp-kit";
+import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, useSuiClientQuery, 
+  // useSuiClientContext 
+} from "@mysten/dapp-kit";
 import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
