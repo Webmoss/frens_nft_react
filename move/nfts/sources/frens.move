@@ -1,9 +1,3 @@
-// Copyright (c) Mysten Labs, Inc.
-// SPDX-License-Identifier: Apache-2.0
-
-// TODO: consider renaming this to `example_nft`
-/// A minimalist example to demonstrate how to create an NFT like object
-/// on Sui.
 module nfts::frens {
     use sui::url::{Self, Url};
     use std::string::{utf8, String};
@@ -13,6 +7,10 @@ module nfts::frens {
     use sui::package;
     use sui::display;
     use sui::tx_context::{Self, TxContext};
+
+    // const FEE: u64 = 50000;
+    
+    // const EInvalidFee: u64 = 0;
 
     /// An example NFT that can be minted by anybody
     struct Fren has key, store {
@@ -27,6 +25,10 @@ module nfts::frens {
         url: Url,
     }
 
+    /// One-Time-Witness for the module.
+    struct FRENS has drop {}
+
+    // ===== Events =====
     struct MintNFTEvent has copy, drop {
         // The Object ID of the NFT
         object_id: ID,
@@ -41,9 +43,6 @@ module nfts::frens {
         /// URL for the token
         url: Url
     }
-
-    /// One-Time-Witness for the module.
-    struct FRENS has drop {}
 
     /// In the module initializer we claim the `Publisher` object
     /// to then create a `Display`. The `Display` is initialized with
@@ -135,10 +134,12 @@ module nfts::frens {
     }
 
     /// Permanently delete `nft`
-    public entry fun burn(nft: Fren) {
+    public entry fun burn(nft: Fren, _: &mut TxContext) {
         let Fren { id, name: _, description: _, trait: _, url: _ } = nft;
         object::delete(id)
     }
+
+    // ===== Public view functions =====
 
     /// Get the NFT's `name`
     public fun name(nft: &Fren): &std::string::String {

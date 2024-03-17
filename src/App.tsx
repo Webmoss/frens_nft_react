@@ -27,6 +27,7 @@ function App() {
   const [page, setPage] = useState('mint');
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
+  const [nftObjectId, setNftObjectId] = useState('');
 
   function mint_nft() {
     try {
@@ -38,8 +39,8 @@ function App() {
           txb.pure.string("Frensly"),
           txb.pure.string("A Sui Frens NFT by LOR3LORD"),
           txb.pure.string("BOSS Level"),
-          txb.pure.string("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
-          // txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
+          // txb.pure.string("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
+          txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
         ],        
       });
 
@@ -58,20 +59,25 @@ function App() {
                 digest: tx.digest,
               })
               .then(() => {
-                const objectId = tx.effects?.created?.[0]?.reference?.objectId;
+                const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
 
-                if (objectId) {
-                  console.log("objectId", objectId);
+                if (nftObjectId) {
+                  console.log("Nft Object Id", nftObjectId);
+                  setNftObjectId(nftObjectId)
                 }
 
-                toast.success('Successfully minted Fren!');
-
-                setDigest(tx.digest);
-                console.log("Digest", tx.digest);
+                const txnDigest = tx.digest;
+                if (txnDigest) {
+                  setDigest(txnDigest);
+                  console.log("Digest", txnDigest);
+                }
 
                 setMintCount( mintCount + 1 );
                 console.log("Mint Count", mintCount);
-              });
+
+                toast.success('Successfully minted your new Fren');
+              }
+            );
           },
         },
       );

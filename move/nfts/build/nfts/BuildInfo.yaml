@@ -5,14 +5,14 @@ compiled_package_info:
     nfts: "0000000000000000000000000000000000000000000000000000000000000000"
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     sui: "0000000000000000000000000000000000000000000000000000000000000002"
-  source_digest: AEC1EC82FF2D7F69703FD4423F02196C2710C96C91345E311361B72721663E42
+  source_digest: 4BBD811E276A68FCF1FD0DF5A845F7F7E77B48BF6B97CE5C13E1696AB4FE256E
   build_flags:
-    dev_mode: true
-    test_mode: true
+    dev_mode: false
+    test_mode: false
     generate_docs: false
     install_dir: ~
     force_recompilation: false
-    lock_file: ~
+    lock_file: "./Move.lock"
     fetch_deps_only: false
     skip_fetch_latest_git_deps: false
     default_flavor: sui
