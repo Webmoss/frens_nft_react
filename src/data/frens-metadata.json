@@ -1,0 +1,225 @@
+{
+  "frens": [
+    {
+      "id": "1",
+      "name": "One",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmQKSnja5jxKwxbNuRwfpCPbEpxzsxTC2cuoK1ymCNpY7m",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "1.png"
+    },
+    {
+      "id": "2",
+      "name": "Two",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmSHMvrAWh4GxtEiScX5Nout5ZMNat2LuSQ8yLE7xrAZe4",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "2.png"
+    },
+    {
+      "id": "3",
+      "name": "Three",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmSsgYiozoKKXdbxzzr8qLsyg2jiE72jhSuNsiJpxzbGRU",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "3.png"
+    },
+    {
+      "id": "4",
+      "name": "Four",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmbA6MG5QrhAFBmhP9y1ACbrS5Ao7fckGqMpJyiPZWeNoC",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "4.png"
+    },
+    {
+      "id": "5",
+      "name": "Five",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://Qmaf7SqNcd7pVohMDu3Jqy76jQGUuGHDDxHLJ8Tg8CzmbD",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "5.png"
+    },
+    {
+      "id": "6",
+      "name": "Six",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmPQaggr49wkW8VJTTBgAGpFmW8ZtLhVpmdR3po7hXUFLn",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "6.png"
+    },
+    {
+      "id": "7",
+      "name": "Seven",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmPDvMYP8LyHJZW2KQBajomJsoqahuMumjdFLmcMba6NBd",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "7.png"
+    },
+    {
+      "id": "8",
+      "name": "Eight",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmahhEEPe6GRgikb3XLtpMniyVE9Q11nJne2mXLimjPCSF",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "8.png"
+    },
+    {
+      "id": "9",
+      "name": "Nine",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmWy3mxwExzGmjfHxg6Szhsj5Z3AgF2CagkpocYV9ZcvLd",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "9.png"
+    },
+    {
+      "id": "10",
+      "name": "Ten",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmXbhHTitSTCxhozTU7aMWzHedvjpzkAoRPcNR5D1fqeKx",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "10.png"
+    },
+    {
+      "id": "11",
+      "name": "Eleven",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmdkAQ1n82AGcC5RCWV8egY8rSEkThaBwey5fyqK2isDfp",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "11.png"
+    },
+    {
+      "id": "12",
+      "name": "Twelve",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmQiKZiKL22X8QZddLvRUn2LtKaxpKKgT8iY31LXstQ2on",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "12.png"
+    },
+    {
+      "id": "13",
+      "name": "Thirteen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://Qme9U1XKJqDfevbBgD4nAvdevk5aKzUnpiNf6fBXUVZpj4",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "13.png"
+    },
+    {
+      "id": "14",
+      "name": "Fourteen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmQHutn924PtkBHgzPihHUEQ6qE9734Pe4WntLANsVZjvP",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "14.png"
+    },
+    {
+      "id": "15",
+      "name": "Fifteen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmfCLt2b6KM5mVZ8WFNSvfT4BdWVXf3nCySASfk8QJKXnQ",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "15.png"
+    },
+    {
+      "id": "16",
+      "name": "Sixteen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmbBqGfb4CvK9KcTTuAtfEt8vguBv1JzCZX6EfE4sRLN75",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "16.png"
+    },
+    {
+      "id": "17",
+      "name": "Seventeen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://Qmb4jYtDFthHeg9ExeYAJbqkkx2KpteYAYtZZXazq9Qa9p",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "17.png"
+    },
+    {
+      "id": "18",
+      "name": "Eighteen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmNkEco6J3ukVRmwfuE44mKhsDK6B9Fm2GnWreRwUuMxqi",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "18.png"
+    }
+    ,
+    {
+      "id": "19",
+      "name": "Nineteen",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmVEpHd4GmrbqtJtoDGuZBwmNUUgV3ryyhTcpM5ob8nxJs",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "19.png"
+    },
+    {
+      "id": "20",
+      "name": "Twenty",
+      "link": "https://frens-nft.netlify.app/fren/{id}",
+      "image_url": "ipfs://QmZTym5d8tgowStPYdHQKo77AvnHRfEmjhiExWvPNkaeqG",
+      "description": "A true Fren of the Sui Geek-o-system!",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Genesis Fren",
+      "image": "20.png"
+    }
+  ]
+}

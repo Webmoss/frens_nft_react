@@ -1,16 +1,11 @@
 import { TransactionBlock } from "@mysten/sui.js/transactions";
-import { 
-  ConnectButton, 
-  useCurrentAccount,
-  useSignAndExecuteTransactionBlock,
-  useSuiClient,
-  useSuiClientQuery,
-  useSuiClientContext
-} from "@mysten/dapp-kit";
+import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, useSuiClientQuery, useSuiClientContext } from "@mysten/dapp-kit";
 import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
+
+import data from "./data/frens-metadata.json";
 
 // import styles from './assets/styles/styles.scss'; 
 
@@ -32,17 +27,33 @@ function App() {
   console.log("nftObjectId",nftObjectId);
 
   function mint_nft() {
+
+    console.log("Data Frens", data);
+  
+    const frensData = data.frens as any;
+    console.log("Frens NFT Data : ", frensData);
+
+    var keys = Object.keys(frensData);
+    console.log("Keys : ", keys);
+
+    var randomProperty = keys[Math.floor(keys.length*Math.random())]
+    console.log("randomProperty : ", randomProperty);
+
+    var fren = frensData[randomProperty]
+    console.log("Frens Id", fren);
+
+    
     try {
       console.log("Mint Nft Count: ", mintCount);
       const txb = new TransactionBlock();
       txb.moveCall({
         target: `${minterPackageId}::frens::mint`,
         arguments: [
-          txb.pure.string("Frensly"),
-          txb.pure.string("A Sui Frens NFT by LOR3LORD"),
-          txb.pure.string("BOSS Level"),
-          // txb.pure.string("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
-          txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
+          txb.pure.string(fren.name),
+          txb.pure.string(fren.description),
+          txb.pure.string(fren.trait),
+          txb.pure.string(fren.image_url)
+          // txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
         ],        
       });
 
@@ -88,6 +99,49 @@ function App() {
     }   
   }
 
+  function claim_nft() {
+    try {
+      console.log("Claim Fren Prize Id: ", nftObjectId);
+      
+      const txb = new TransactionBlock();
+      txb.moveCall({
+        target: `${minterPackageId}::frens::claim`,
+        arguments: [
+          txb.pure.string(nftObjectId),
+        ],        
+      });
+
+      signAndExecute(
+        {
+          transactionBlock: txb,
+          options: {
+            showEffects: true,
+            showObjectChanges: true,
+          },
+        },
+        {
+          onSuccess: (tx) => {
+            client
+              .waitForTransactionBlock({
+                digest: tx.digest,
+              })
+              .then(() => {
+                const txnDigest = tx.digest;
+                if (txnDigest) {
+                  setDigest(txnDigest);
+                  console.log("Digest", txnDigest);
+                }
+                toast.success('Successfully claimed your Fren prize!');
+              }
+            );
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }   
+  }
+
   function OwnedObjects({ address }: { address: string }) {
     const { data } = useSuiClientQuery('getOwnedObjects', {
       filter: {
@@ -115,18 +169,18 @@ function App() {
     );
   }
 
-  function NetworkSelector() {
-    const ctx = useSuiClientContext();
-    return (
-      <div>
-        {Object.keys(ctx.networks).map((network) => (
-          <button key={network} onClick={() => ctx.selectNetwork(network)}>
-            {`select ${network}`}
-          </button>
-        ))}
-      </div>
-    );
-  }  
+  // function NetworkSelector() {
+  //   const ctx = useSuiClientContext();
+  //   return (
+  //     <div>
+  //       {Object.keys(ctx.networks).map((network) => (
+  //         <button key={network} onClick={() => ctx.selectNetwork(network)}>
+  //           {`select ${network}`}
+  //         </button>
+  //       ))}
+  //     </div>
+  //   );
+  // }  
 
   function ConnectedAccount() {
     const account = useCurrentAccount();
@@ -162,6 +216,12 @@ function App() {
           <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => { setPage("home") }}
           >Collection</button>
+          
+          {nftObjectId && (
+            <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
+              onClick={() => { setPage("claim") }}
+            >Claim</button>
+          )}
         </Box>
         <Box>
           <ConnectButton />
@@ -224,7 +284,7 @@ function App() {
                     </Container>
                   </Box>
 
-                  {mintCount <= 3 ? (
+                  {mintCount <= 2 ? (
                     <Box style={{margin: '20px'}}>
                       <Button
                         size="4"
@@ -245,12 +305,24 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      WTF? You have maxed minted!<br />Your Mint is completed new <Strong>Fren</Strong>!
+                      WTF? You have maxed minted!<br />Now claim it new <Strong>Fren</Strong>!
                     </Heading>
+                    {nftObjectId && (
+                      <Box style={{margin: '20px', textAlign: 'center' }}>
+                        <Button
+                          size="4"
+                          onClick={() => {
+                            claim_nft();
+                          }}
+                        >
+                          Claim Prize
+                        </Button>
+                      </Box>        
+                    )}
                     </Box>        
-                  )}
+                  )}            
                   {/* DEV STUFF to Remove */}
-                  <NetworkSelector />
+                  {/* <NetworkSelector /> */}
                   <ConnectedAccount />
                   {/* DEV STUFF to Remove */}
                   {digest ? (
