@@ -12,7 +12,7 @@ export function CreateCounter({
   onCreated: (id: string) => void;
 }) {
   const client = useSuiClient();
-  const counterPackageId = useNetworkVariable("counterPackageId");
+  const minterPackageId = useNetworkVariable("minterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
 
   return (
@@ -33,7 +33,7 @@ export function CreateCounter({
 
     txb.moveCall({
       arguments: [],
-      target: `${counterPackageId}::counter::create`,
+      target: `${minterPackageId}::counter::create`,
     });
 
     signAndExecute(

@@ -10,6 +10,7 @@ import {
 import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 // import styles from './assets/styles/styles.scss'; 
 
@@ -19,8 +20,10 @@ function App() {
 
   const client = useSuiClient();
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
+  
   const minterPackageId = useNetworkVariable("minterPackageId");
   const currentAccount = useCurrentAccount();
+  
   const [page, setPage] = useState('mint');
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
@@ -35,7 +38,8 @@ function App() {
           txb.pure.string("Frensly"),
           txb.pure.string("A Sui Frens NFT by LOR3LORD"),
           txb.pure.string("BOSS Level"),
-          txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
+          txb.pure.string("ipfs://QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
+          // txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
         ],        
       });
 
@@ -60,6 +64,8 @@ function App() {
                   console.log("objectId", objectId);
                 }
 
+                toast.success('Successfully minted Fren!');
+
                 setDigest(tx.digest);
                 console.log("Digest", tx.digest);
 
@@ -76,7 +82,14 @@ function App() {
 
   function OwnedObjects({ address }: { address: string }) {
     const { data } = useSuiClientQuery('getOwnedObjects', {
+      filter: {
+        StructType: `${minterPackageId}::frens::Fren`,
+      },
       owner: address,
+      options: {
+        showContent: true,
+        showOwner: true,
+      },
     });
     if (!data) {
       return null;
@@ -113,10 +126,9 @@ function App() {
       return null;
     }
     return (
-      <div>
-        <div>Connected to {account.address}</div>;
-        <OwnedObjects address={account.address} />
-      </div>
+      <Box style={{ color: "#ffffff"}}>
+        <Text as="p">Connected to: {account.address}</Text>
+      </Box>         
     );
   }
 
@@ -229,20 +241,18 @@ function App() {
                     </Heading>
                     </Box>        
                   )}
-
-                  {digest ? (
-                    <Box style={{padding: '10px'}}>
-                      <Text as="p">{digest}</Text>
-                    </Box>        
-                  ) : ( 
-                    null
-                  )}
-
                   {/* DEV STUFF to Remove */}
                   <NetworkSelector />
                   <ConnectedAccount />
                   {/* DEV STUFF to Remove */}
-
+                  {digest ? (
+                    <Box style={{ color: "#ffffff"}}>
+                      <Text as="p">Txn Digest: {digest}</Text>
+                    </Box>        
+                  ) : ( 
+                    null
+                  )}
+                <OwnedObjects address={currentAccount.address} />
                 </Flex>
               </Container>
             ) : (
@@ -296,6 +306,7 @@ function App() {
           </Box>
         )}
       </Container>
+      <Toaster />
     </>
   );
 }

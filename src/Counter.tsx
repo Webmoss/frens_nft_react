@@ -12,7 +12,7 @@ import { useNetworkVariable } from "./networkConfig";
 export function Counter({ id }: { id: string }) {
   const client = useSuiClient();
   const currentAccount = useCurrentAccount();
-  const counterPackageId = useNetworkVariable("counterPackageId");
+  const minterPackageId = useNetworkVariable("minterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const { data, isPending, error, refetch } = useSuiClientQuery("getObject", {
     id,
@@ -28,12 +28,12 @@ export function Counter({ id }: { id: string }) {
     if (method === "reset") {
       txb.moveCall({
         arguments: [txb.object(id), txb.pure.u64(0)],
-        target: `${counterPackageId}::counter::set_value`,
+        target: `${minterPackageId}::counter::set_value`,
       });
     } else {
       txb.moveCall({
         arguments: [txb.object(id)],
-        target: `${counterPackageId}::counter::increment`,
+        target: `${minterPackageId}::counter::increment`,
       });
     }
 
