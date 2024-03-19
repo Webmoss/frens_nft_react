@@ -1,6 +1,6 @@
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, useSuiClientQuery, 
-  // useSuiClientContext 
+  useSuiClientContext 
 } from "@mysten/dapp-kit";
 import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
@@ -42,14 +42,12 @@ function App() {
     console.log("randomProperty : ", randomProperty);
 
     var fren = frensData[randomProperty]
-    console.log("Frens Id", fren);
-
+    console.log("Fren", fren);
     
     try {
-      console.log("Mint Nft Count: ", mintCount);
       const txb = new TransactionBlock();
       txb.moveCall({
-        target: `${minterPackageId}::frens::mint`,
+        target: `${minterPackageId}::frens::mint_to_sender`,
         arguments: [
           txb.pure.string(fren.name),
           txb.pure.string(fren.description),
@@ -75,7 +73,6 @@ function App() {
               })
               .then(() => {
                 const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
-
                 if (nftObjectId) {
                   console.log("Nft Object Id", nftObjectId);
                   setNftObjectId(nftObjectId)
@@ -84,13 +81,9 @@ function App() {
                 const txnDigest = tx.digest;
                 if (txnDigest) {
                   setDigest(txnDigest);
-                  console.log("Digest", txnDigest);
+                  setMintCount( mintCount + 1 );
                 }
-
-                setMintCount( mintCount + 1 );
-                console.log("Mint Count", mintCount);
-
-                toast.success('Successfully minted your new Fren');
+                toast.success('Successfully minted a new Fren');
               }
             );
           },
@@ -133,7 +126,7 @@ function App() {
                   setDigest(txnDigest);
                   console.log("Digest", txnDigest);
                 }
-                toast.success('Successfully claimed your Fren prize!');
+                toast.success('Successfully claimed your prize!');
               }
             );
           },
@@ -162,7 +155,7 @@ function App() {
       <ul>
         {data.data.map((object) => (
           <li key={object.data?.objectId}>
-            <a href={`https://suiexplorer.com/object/${object.data?.objectId}?network=devnet`} target="_blank">
+            <a href={`https://suiscan.xyz/devnet/object/${object.data?.objectId}`} target="_blank">
               {object.data?.objectId}
             </a>
           </li>
@@ -171,18 +164,18 @@ function App() {
     );
   }
 
-  // function NetworkSelector() {
-  //   const ctx = useSuiClientContext();
-  //   return (
-  //     <div>
-  //       {Object.keys(ctx.networks).map((network) => (
-  //         <button key={network} onClick={() => ctx.selectNetwork(network)}>
-  //           {`select ${network}`}
-  //         </button>
-  //       ))}
-  //     </div>
-  //   );
-  // }  
+  function NetworkSelector() {
+    const ctx = useSuiClientContext();
+    return (
+      <div>
+        {Object.keys(ctx.networks).map((network) => (
+          <button key={network} onClick={() => ctx.selectNetwork(network)}>
+            {`select ${network}`}
+          </button>
+        ))}
+      </div>
+    );
+  }  
 
   function ConnectedAccount() {
     const account = useCurrentAccount();
@@ -307,7 +300,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      WTF? You have maxed minted!<br />Now claim it new <Strong>Fren</Strong>!
+                      WTF? You just max minted!<br />Claim your <Strong>Prize</Strong> new fren!
                     </Heading>
                     {nftObjectId && (
                       <Box style={{margin: '20px', textAlign: 'center' }}>
@@ -324,7 +317,7 @@ function App() {
                     </Box>        
                   )}            
                   {/* DEV STUFF to Remove */}
-                  {/* <NetworkSelector /> */}
+                  <NetworkSelector />
                   <ConnectedAccount />
                   {/* DEV STUFF to Remove */}
                   {digest ? (

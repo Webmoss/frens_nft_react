@@ -3,14 +3,10 @@ module nfts::frens {
     use std::string::{utf8, String};
     use sui::object::{Self, ID, UID};
     use sui::event;
-    use sui::transfer;
+    use sui::transfer::{public_transfer};
     use sui::package;
     use sui::display;
-    use sui::tx_context::{Self, TxContext};
-
-    // const FEE: u64 = 50000;
-    
-    // const EInvalidFee: u64 = 0;
+    use sui::tx_context::{sender, Self, TxContext};
 
     /// An example NFT that can be minted by anybody
     struct Fren has key, store {
@@ -22,7 +18,7 @@ module nfts::frens {
         /// Trait of the token
         trait: String,
         /// URL for the token
-        url: Url,
+        image_url: Url,
     }
 
     /// One-Time-Witness for the module.
@@ -41,7 +37,7 @@ module nfts::frens {
         // The trait of the NFT
         trait: String,
         /// URL for the token
-        url: Url
+        image_url: Url
     }
 
     /// In the module initializer we claim the `Publisher` object
@@ -67,13 +63,13 @@ module nfts::frens {
             // For `link` we can build a URL using an `id` property
             utf8(b"https://frens-nft.netlify.app/fren/{id}"),
             // For `image_url` we use an IPFS template + `img_url` property.
-            utf8(b"ipfs/{img_url}"),
+            utf8(b"{image_url}"),
             // Description is static for all `Fren` objects.
-            utf8(b"A true Fren of the Sui Geek-o-system!"),
+            utf8(b"{description}"),
             // Project URL is usually static
             utf8(b"https://frens-nft.netlify.app"),
             // Creator field can be any
-            utf8(b"Boss Moss")
+            utf8(b"LOR3LORD")
         ];
 
         // Claim the `Publisher` for the package!
@@ -86,35 +82,50 @@ module nfts::frens {
         // Commit first version of `Display` to apply changes.
         display::update_version(&mut display);
 
-        transfer::public_transfer(publisher, tx_context::sender(ctx));
-        transfer::public_transfer(display, tx_context::sender(ctx));
+        public_transfer(publisher, sender(ctx));
+        public_transfer(display, sender(ctx));
     }
 
-    /// Create a new frens
-    public entry fun mint(
+    /// Create a new fren 
+    public entry fun mint_to_sender(
         name: vector<u8>,
         description: vector<u8>,
         trait: vector<u8>,
-        url: vector<u8>,
+        image_url: vector<u8>,
         ctx: &mut TxContext
     ) {
+        let sender = sender(ctx);
+        let nft = mint(name, description, trait, image_url, ctx);
+        public_transfer(nft, sender);
+    }
+
+    public fun mint(
+        name: vector<u8>,
+        description: vector<u8>,
+        trait: vector<u8>,
+        image_url: vector<u8>,
+        ctx: &mut TxContext
+    ): Fren {
+        let sender = tx_context::sender(ctx);
+
         let nft = Fren {
             id: object::new(ctx),
             name: utf8(name),
             description: utf8(description),
             trait: utf8(trait),
-            url: url::new_unsafe_from_bytes(url)
+            image_url: url::new_unsafe_from_bytes(image_url)
         };
-        let sender = tx_context::sender(ctx);
+
         event::emit(MintNFTEvent {
-            object_id: object::uid_to_inner(&nft.id),
+            object_id: object::id(&nft),
             creator: sender,
             name: nft.name,
             description: nft.description,
             trait: nft.trait,
-            url: nft.url,
+            image_url: nft.image_url,
         });
-        transfer::public_transfer(nft, sender);
+
+        nft
     }
 
     /// Update the `description` of `nft` to `new_description`
@@ -135,7 +146,7 @@ module nfts::frens {
 
     /// Permanently delete `nft`
     public entry fun burn(nft: Fren, _: &mut TxContext) {
-        let Fren { id, name: _, description: _, trait: _, url: _ } = nft;
+        let Fren { id, name: _, description: _, trait: _, image_url: _ } = nft;
         object::delete(id)
     }
 
@@ -158,7 +169,7 @@ module nfts::frens {
 
     /// Get the NFT's `url`
     public fun url(nft: &Fren): &Url {
-        &nft.url
+        &nft.image_url
     }
 }
 
