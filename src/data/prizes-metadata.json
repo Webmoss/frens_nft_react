@@ -1,0 +1,44 @@
+{
+  "frens": [
+    {
+      "id": "1",
+      "name": "1 Sui",
+      "link": "https://frens-nft.netlify.app",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
+      "description": "Winner of a Sui Mint Prize",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Fren Win"
+    },
+    {
+      "id": "2",
+      "name": "2 Sui",
+      "link": "https://frens-nft.netlify.app",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
+      "description": "Winner of a Sui Mint Prize",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Good Fren Win"
+    },
+    {
+      "id": "3",
+      "name": "5 Sui",
+      "link": "https://frens-nft.netlify.app",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
+      "description": "Winner of a Sui Mint Prize",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Great Fren Win"
+    },
+    {
+      "id": "4",
+      "name": "10 Sui",
+      "link": "https://frens-nft.netlify.app",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
+      "description": "Winner of a Sui Mint Prize",
+      "project_url": "https://frens-nft.netlify.app",
+      "creator": "LOR3LORD",
+      "trait": "Mega Fren Win"
+    }
+  ]
+}

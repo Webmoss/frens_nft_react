@@ -8,6 +8,7 @@ import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 
 import data from "./data/frens-metadata.json";
+import prizes from "./data/prizes-metadata.json";
 
 // import styles from './assets/styles/styles.scss'; 
 
@@ -25,25 +26,16 @@ function App() {
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
   const [nftObjectId, setNftObjectId] = useState('');
+  const [mintImage, setMintImage] = useState('');
 
-  console.log("nftObjectId",nftObjectId);
 
   function mint_nft() {
 
-    console.log("Data Frens", data);
-  
     const frensData = data.frens as any;
-    console.log("Frens NFT Data : ", frensData);
+    let keys = Object.keys(frensData);
+    let randomProperty = keys[Math.floor(keys.length*Math.random())]
+    let fren = frensData[randomProperty]
 
-    var keys = Object.keys(frensData);
-    console.log("Keys : ", keys);
-
-    var randomProperty = keys[Math.floor(keys.length*Math.random())]
-    console.log("randomProperty : ", randomProperty);
-
-    var fren = frensData[randomProperty]
-    console.log("Fren", fren);
-    
     try {
       const txb = new TransactionBlock();
       txb.moveCall({
@@ -53,10 +45,64 @@ function App() {
           txb.pure.string(fren.description),
           txb.pure.string(fren.trait),
           txb.pure.string(fren.image_url)
-          // txb.pure.string("https://cloudflare-ipfs.com/ipfs/QmZhnkimthxvL32vin2mrQvnhN8ZbWFMvKMxRqHEq7dPz3")
         ],        
       });
+      signAndExecute(
+        {
+          transactionBlock: txb,
+          options: {
+            showEffects: true,
+            showObjectChanges: true,
+          },
+        },
+        {
+          onSuccess: (tx) => {
+            client
+              .waitForTransactionBlock({
+                digest: tx.digest,
+              })
+              .then(() => {
+                const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
+                if (nftObjectId) {
+                  setNftObjectId(nftObjectId)
+                }
+                const txnDigest = tx.digest;
+                if (txnDigest) {
+                  setDigest(txnDigest);
+                  setMintCount( mintCount + 1 );
+                }
+                setMintImage(fren.image_url);
+                toast.success('Successfully minted a new Fren');
+              }
+            );
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error('Error minting a new Fren');
+    }   
+  }
 
+  function claim_nft() {
+
+    const frensPrizes = prizes.frens as any;
+    var keys = Object.keys(frensPrizes);
+    var randomProperty = keys[Math.floor(keys.length*Math.random())]
+    var prize = frensPrizes[randomProperty]
+    console.log("Fren Prize", prize);
+    
+    try {
+      const txb = new TransactionBlock();
+      txb.moveCall({
+        target: `${minterPackageId}::frens::mint_to_sender`,
+        arguments: [
+          txb.pure.string(prize.name),
+          txb.pure.string(prize.description),
+          txb.pure.string(prize.trait),
+          txb.pure.string(prize.image_url)
+        ],        
+      });
       signAndExecute(
         {
           transactionBlock: txb,
@@ -83,7 +129,8 @@ function App() {
                   setDigest(txnDigest);
                   setMintCount( mintCount + 1 );
                 }
-                toast.success('Successfully minted a new Fren');
+                setMintImage(prize.image_url);
+                toast.success('Congrats Fren, you won a prize!');
               }
             );
           },
@@ -91,49 +138,7 @@ function App() {
       );
     } catch (error) {
       console.error(error);
-    }   
-  }
-
-  function claim_nft() {
-    try {
-      console.log("Claim Fren Prize Id: ", nftObjectId);
-      
-      const txb = new TransactionBlock();
-      txb.moveCall({
-        target: `${minterPackageId}::frens::claim`,
-        arguments: [
-          txb.pure.string(nftObjectId),
-        ],        
-      });
-
-      signAndExecute(
-        {
-          transactionBlock: txb,
-          options: {
-            showEffects: true,
-            showObjectChanges: true,
-          },
-        },
-        {
-          onSuccess: (tx) => {
-            client
-              .waitForTransactionBlock({
-                digest: tx.digest,
-              })
-              .then(() => {
-                const txnDigest = tx.digest;
-                if (txnDigest) {
-                  setDigest(txnDigest);
-                  console.log("Digest", txnDigest);
-                }
-                toast.success('Successfully claimed your prize!');
-              }
-            );
-          },
-        },
-      );
-    } catch (error) {
-      console.error(error);
+      toast.error('Error minting a new Fren');
     }   
   }
 
@@ -272,7 +277,7 @@ function App() {
                   <Box style={{ marginTop: '20px' }}>
                     <Container size="1">
                       <img 
-                        src={frensLogo} 
+                        src={mintImage || frensLogo} 
                         alt="Logo" 
                         width="500px" 
                       />
