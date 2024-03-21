@@ -36,7 +36,7 @@ function App() {
     let randomProperty = keys[Math.floor(keys.length*Math.random())]
     let fren = frensData[randomProperty]
 
-    try {
+    // try {
       const txb = new TransactionBlock();
       txb.moveCall({
         target: `${minterPackageId}::frens::mint_to_sender`,
@@ -78,10 +78,10 @@ function App() {
           },
         },
       );
-    } catch (error) {
-      console.error(error);
-      toast.error('Error minting a new Fren');
-    }   
+    // } catch (error) {
+    //   console.error(error);
+    //   toast.error('Error minting a new Fren');
+    // }   
   }
 
   function claim_nft() {
@@ -160,7 +160,7 @@ function App() {
       <ul>
         {data.data.map((object) => (
           <li key={object.data?.objectId}>
-            <a href={`https://suiscan.xyz/devnet/object/${object.data?.objectId}`} target="_blank">
+            <a href={`https://suiscan.xyz/testnet/object/${object.data?.objectId}`} target="_blank">
               {object.data?.objectId}
             </a>
           </li>

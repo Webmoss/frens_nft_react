@@ -2,43 +2,47 @@
   "frens": [
     {
       "id": "1",
-      "name": "1 Sui",
+      "name": "HODL 1",
       "link": "https://frens-nft.netlify.app",
-      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
-      "description": "Winner of a Sui Mint Prize",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmTnqhoPuTSZ2KSW6nbKqKDvkAfmNoAZLZzf2Yt3cRGvPA",
+      "description": "HODL 1 Winner",
       "project_url": "https://frens-nft.netlify.app",
       "creator": "LOR3LORD",
-      "trait": "Fren Win"
+      "trait": "Fren Win",
+      "image": "HODL1.png"
     },
     {
       "id": "2",
-      "name": "2 Sui",
+      "name": "HODL 2",
       "link": "https://frens-nft.netlify.app",
-      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
-      "description": "Winner of a Sui Mint Prize",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/Qmb1F19tp2X8njKhVdERTD6GNameWTDPgpQGqeEM9XMfGG",
+      "description": "HODL 2 Winner",
       "project_url": "https://frens-nft.netlify.app",
       "creator": "LOR3LORD",
-      "trait": "Good Fren Win"
+      "trait": "Good Fren Win",
+      "image": "HODL2.png"
     },
     {
       "id": "3",
-      "name": "5 Sui",
+      "name": "HODL 3",
       "link": "https://frens-nft.netlify.app",
-      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
-      "description": "Winner of a Sui Mint Prize",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmYRCKSuG3c5kvbCV6EpngYRsPqTAes5pUaEgKmYM4mJVj",
+      "description": "HODL 3 Winner",
       "project_url": "https://frens-nft.netlify.app",
       "creator": "LOR3LORD",
-      "trait": "Great Fren Win"
+      "trait": "Great Fren Win",
+      "image": "HODL3.png"
     },
     {
       "id": "4",
-      "name": "10 Sui",
+      "name": "HODL 4",
       "link": "https://frens-nft.netlify.app",
-      "image_url": "https://cloudflare-ipfs.com/ipfs/QmXsD38KHXwsdZAah9jVTaUukEjW3zZ6KSsKFaqUPQqtPD",
-      "description": "Winner of a Sui Mint Prize",
+      "image_url": "https://cloudflare-ipfs.com/ipfs/QmWfLq3JF7Si3v3kG7YfrYkgebyFTdDqBG4wBf9FRBKSVC",
+      "description": "HODL 4 Winner",
       "project_url": "https://frens-nft.netlify.app",
       "creator": "LOR3LORD",
-      "trait": "Mega Fren Win"
+      "trait": "Mega Fren Win",
+      "image": "HODL4.png"
     }
   ]
 }

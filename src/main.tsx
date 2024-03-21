@@ -76,7 +76,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Theme appearance="light" accentColor="red" radius="small">
       <QueryClientProvider client={queryClient}>
-        <SuiClientProvider networks={networkConfig} defaultNetwork="devnet">
+        <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
           <WalletProvider autoConnect
             theme={[
               {

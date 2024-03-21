@@ -8,7 +8,7 @@ module nfts::frens {
     use sui::display;
     use sui::tx_context::{sender, Self, TxContext};
 
-    /// An example NFT that can be minted by anybody
+    /// A Fren NFT that can be minted by anybody
     struct Fren has key, store {
         id: UID,
         /// Name for the token
@@ -21,7 +21,7 @@ module nfts::frens {
         image_url: Url,
     }
 
-    /// One-Time-Witness for the module.
+    /// Can I get a witness
     struct FRENS has drop {}
 
     // ===== Events =====
@@ -40,13 +40,6 @@ module nfts::frens {
         image_url: Url
     }
 
-    /// In the module initializer we claim the `Publisher` object
-    /// to then create a `Display`. The `Display` is initialized with
-    /// a set of fields (but can be modified later) and published via
-    /// the `update_version` call.
-    ///
-    /// Keys and values are set in the initializer but could also be
-    /// set after publishing if a `Publisher` object was created.
     fun init(otw: FRENS, ctx: &mut TxContext) {
         let keys = vector[
             utf8(b"name"),
@@ -72,21 +65,43 @@ module nfts::frens {
             utf8(b"LOR3LORD")
         ];
 
-        // Claim the `Publisher` for the package!
+        // Claim the `Publisher` for the package
         let publisher = package::claim(otw, ctx);
 
-        // Get a new `Display` object for the `Fren` type.
+        // Get a new `Display` object for the `Fren` type
         let display = display::new_with_fields<Fren>(
             &publisher, keys, values, ctx
         );
-        // Commit first version of `Display` to apply changes.
+        // Commit first version of `Display` to apply changes
         display::update_version(&mut display);
 
         public_transfer(publisher, sender(ctx));
         public_transfer(display, sender(ctx));
     }
 
-    /// Create a new fren 
+    // ===== Public view functions =====
+
+    /// Get the NFT's `name`
+    public fun name(nft: &Fren): &std::string::String {
+        &nft.name
+    }
+
+    /// Get the NFT's `description`
+    public fun description(nft: &Fren): &std::string::String {
+        &nft.description
+    }
+
+    /// Get the NFT's `trait`
+    public fun trait(nft: &Fren): &std::string::String {
+        &nft.trait
+    }
+
+    /// Get the NFT's `url`
+    public fun image_url(nft: &Fren): &Url {
+        &nft.image_url
+    }
+
+    /// Create a new Fren NFT
     public entry fun mint_to_sender(
         name: vector<u8>,
         description: vector<u8>,
@@ -144,32 +159,18 @@ module nfts::frens {
         nft.trait = utf8(new_trait)
     }
 
+    /// Update the `image_url` of `nft` to `image_url`
+    public entry fun update_image_url(
+        nft: &mut Fren,
+        image_url: vector<u8>,
+    ) {
+        nft.image_url = url::new_unsafe_from_bytes(image_url)
+    }
+
     /// Permanently delete `nft`
     public entry fun burn(nft: Fren, _: &mut TxContext) {
         let Fren { id, name: _, description: _, trait: _, image_url: _ } = nft;
         object::delete(id)
-    }
-
-    // ===== Public view functions =====
-
-    /// Get the NFT's `name`
-    public fun name(nft: &Fren): &std::string::String {
-        &nft.name
-    }
-
-    /// Get the NFT's `description`
-    public fun description(nft: &Fren): &std::string::String {
-        &nft.description
-    }
-
-    /// Get the NFT's `trait`
-    public fun trait(nft: &Fren): &std::string::String {
-        &nft.trait
-    }
-
-    /// Get the NFT's `url`
-    public fun url(nft: &Fren): &Url {
-        &nft.image_url
     }
 }
 
@@ -187,7 +188,7 @@ module nfts::frensTests {
         // create the NFT
         let scenario = ts::begin(addr1);
         {
-            frens::mint(b"Frenly", b"A cool fren he is indeed!", b"BOSS fren", b"https://www.sui.io", ts::ctx(&mut scenario))
+            frens::mint_to_sender(b"Frenly", b"A cool fren he is indeed!", b"BOSS fren", b"https://www.sui.io", ts::ctx(&mut scenario))
         };
         // send it from A to B
         ts::next_tx(&mut scenario, addr1);
@@ -211,11 +212,19 @@ module nfts::frensTests {
             assert!(*string::bytes(frens::trait(&nft)) == b"a new trait", 0);
             ts::return_to_sender(&scenario, nft);
         };
+        // update its image_url
+        ts::next_tx(&mut scenario, addr2);
+        {
+            let nft = ts::take_from_sender<Fren>(&scenario);
+            frens::update_image_url(&mut nft, b"https://cloudflare-ipfs.com/ipfs/QmTnqhoPuTSZ2KSW6nbKqKDvkAfmNoAZLZzf2Yt3cRGvPA") ;
+            assert!(*string::bytes(frens::image_url(&nft)) == b"https://cloudflare-ipfs.com/ipfs/QmTnqhoPuTSZ2KSW6nbKqKDvkAfmNoAZLZzf2Yt3cRGvPA", 0);
+            ts::return_to_sender(&scenario, nft);
+        };
         // burn it
         ts::next_tx(&mut scenario, addr2);
         {
             let nft = ts::take_from_sender<Fren>(&scenario);
-            frens::burn(nft)
+            frens::burn(nft, ts::ctx(&mut scenario))
         };
         ts::end(scenario);
     }
