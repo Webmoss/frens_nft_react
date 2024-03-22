@@ -1,6 +1,7 @@
 import { TransactionBlock } from "@mysten/sui.js/transactions";
-import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, useSuiClientQuery, 
-  useSuiClientContext 
+import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, 
+  // useSuiClientQuery, 
+  // useSuiClientContext 
 } from "@mysten/dapp-kit";
 import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
@@ -10,9 +11,16 @@ import toast, { Toaster } from 'react-hot-toast';
 import data from "./data/frens-metadata.json";
 import prizes from "./data/prizes-metadata.json";
 
-// import styles from './assets/styles/styles.scss'; 
-
 import frensLogo from './assets/images/Frens-NFT-Logo.png';
+import frensGallery1 from './assets/images/KING.png';
+import frensGallery2 from './assets/images/ECANEM.png';
+import frensGallery3 from './assets/images/MOONING.png';
+import frensGallery4 from './assets/images/69.png';
+import frensGallery5 from './assets/images/FIRE.png';
+import frensGallery6 from './assets/images/LOR3LORD.png';
+import frensGallery7 from './assets/images/LEGION-OF-DEGENS.png';
+import frensGallery8 from './assets/images/PLANET-X.png';
+import frensGallery9 from './assets/images/SHINE-BRIGHT.png';
 
 function App() {
 
@@ -36,7 +44,7 @@ function App() {
     let randomProperty = keys[Math.floor(keys.length*Math.random())]
     let fren = frensData[randomProperty]
 
-    // try {
+    try {
       const txb = new TransactionBlock();
       txb.moveCall({
         target: `${minterPackageId}::frens::mint_to_sender`,
@@ -44,7 +52,7 @@ function App() {
           txb.pure.string(fren.name),
           txb.pure.string(fren.description),
           txb.pure.string(fren.trait),
-          txb.pure.string(fren.image_url)
+          txb.pure.string(fren.image_ipfs)
         ],        
       });
       signAndExecute(
@@ -69,6 +77,7 @@ function App() {
                 const txnDigest = tx.digest;
                 if (txnDigest) {
                   setDigest(txnDigest);
+                  console.log("digest", digest);
                   setMintCount( mintCount + 1 );
                 }
                 setMintImage(fren.image_url);
@@ -78,10 +87,10 @@ function App() {
           },
         },
       );
-    // } catch (error) {
-    //   console.error(error);
-    //   toast.error('Error minting a new Fren');
-    // }   
+    } catch (error) {
+      console.error(error);
+      toast.error('Error minting a new Fren');
+    }   
   }
 
   function claim_nft() {
@@ -100,7 +109,7 @@ function App() {
           txb.pure.string(prize.name),
           txb.pure.string(prize.description),
           txb.pure.string(prize.trait),
-          txb.pure.string(prize.image_url)
+          txb.pure.string(prize.image_ipfs)
         ],        
       });
       signAndExecute(
@@ -142,45 +151,45 @@ function App() {
     }   
   }
 
-  function OwnedObjects({ address }: { address: string }) {
-    const { data } = useSuiClientQuery('getOwnedObjects', {
-      filter: {
-        StructType: `${minterPackageId}::frens::Fren`,
-      },
-      owner: address,
-      options: {
-        showContent: true,
-        showOwner: true,
-      },
-    });
-    if (!data) {
-      return null;
-    }
-    return (
-      <ul>
-        {data.data.map((object) => (
-          <li key={object.data?.objectId}>
-            <a href={`https://suiscan.xyz/testnet/object/${object.data?.objectId}`} target="_blank">
-              {object.data?.objectId}
-            </a>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  // function OwnedObjects({ address }: { address: string }) {
+  //   const { data } = useSuiClientQuery('getOwnedObjects', {
+  //     filter: {
+  //       StructType: `${minterPackageId}::frens::Fren`,
+  //     },
+  //     owner: address,
+  //     options: {
+  //       showContent: true,
+  //       showOwner: true,
+  //     },
+  //   });
+  //   if (!data) {
+  //     return null;
+  //   }
+  //   return (
+  //     <ul>
+  //       {data.data.map((object) => (
+  //         <li key={object.data?.objectId}>
+  //           <a href={`https://suiscan.xyz/testnet/object/${object.data?.objectId}`} target="_blank">
+  //             {object.data?.objectId}
+  //           </a>
+  //         </li>
+  //       ))}
+  //     </ul>
+  //   );
+  // }
 
-  function NetworkSelector() {
-    const ctx = useSuiClientContext();
-    return (
-      <div>
-        {Object.keys(ctx.networks).map((network) => (
-          <button key={network} onClick={() => ctx.selectNetwork(network)}>
-            {`select ${network}`}
-          </button>
-        ))}
-      </div>
-    );
-  }  
+  // function NetworkSelector() {
+  //   const ctx = useSuiClientContext();
+  //   return (
+  //     <div>
+  //       {Object.keys(ctx.networks).map((network) => (
+  //         <button key={network} onClick={() => ctx.selectNetwork(network)}>
+  //           {`select ${network}`}
+  //         </button>
+  //       ))}
+  //     </div>
+  //   );
+  // }  
 
   function ConnectedAccount() {
     const account = useCurrentAccount();
@@ -189,7 +198,7 @@ function App() {
     }
     return (
       <Box style={{ color: "#ffffff"}}>
-        <Text as="p">Connected to: {account.address}</Text>
+        <Text as="p">Connected: {account.address}</Text>
       </Box>         
     );
   }
@@ -237,15 +246,15 @@ function App() {
           <Box>
             <Container size="1">
               <Grid columns="3" gap="3" width="auto">
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
-                <Box><img src={frensLogo} alt="Logo" /></Box>
+                <Box><img src={frensGallery1} alt="Logo" /></Box>
+                <Box><img src={frensGallery2} alt="Logo" /></Box>
+                <Box><img src={frensGallery3} alt="Logo" /></Box>
+                <Box><img src={frensGallery4} alt="Logo" /></Box>
+                <Box><img src={frensGallery5} alt="Logo" /></Box>
+                <Box><img src={frensGallery6} alt="Logo" /></Box>
+                <Box><img src={frensGallery7} alt="Logo" /></Box>
+                <Box><img src={frensGallery8} alt="Logo" /></Box>
+                <Box><img src={frensGallery9} alt="Logo" /></Box>
              </Grid>
            </Container>
          </Box>
@@ -322,17 +331,17 @@ function App() {
                     </Box>        
                   )}            
                   {/* DEV STUFF to Remove */}
-                  <NetworkSelector />
+                  {/* <NetworkSelector /> */}
                   <ConnectedAccount />
                   {/* DEV STUFF to Remove */}
-                  {digest ? (
+                  {/* {digest ? (
                     <Box style={{ color: "#ffffff"}}>
                       <Text as="p">Txn Digest: {digest}</Text>
                     </Box>        
                   ) : ( 
                     null
-                  )}
-                <OwnedObjects address={currentAccount.address} />
+                  )} */}
+                {/* <OwnedObjects address={currentAccount.address} /> */}
                 </Flex>
               </Container>
             ) : (
