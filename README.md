@@ -1,18 +1,23 @@
-# Sui dApp Starter Template
+# Frens Sui NFT Mint
 
-This dApp was created using `@mysten/create-dapp` that sets up a basic React
-Client dApp using the following tools:
+The Frens NFT Mint was created for the ThinkSui: Builders and Content Creators contest. For more information [visit](https://twitter.com/ThinkSui/status/1755260232413188333?s=20)
 
-- [React](https://react.dev/) as the UI framework
-- [TypeScript](https://www.typescriptlang.org/) for type checking
-- [Vite](https://vitejs.dev/) for build tooling
-- [Radix UI](https://www.radix-ui.com/) for pre-built UI components
-- [ESLint](https://eslint.org/) for linting
-- [`@mysten/dapp-kit`](https://sdk.mystenlabs.com/dapp-kit) for connecting to
-  wallets and loading data
-- [pnpm](https://pnpm.io/) for package management
+The Frens mint features some fun handdrawn art by [LOR3LORD](https://twitter.com/LOR3LORD) and the dApp was developed by [WebMoss](https://twitter.com/WebMoss).
 
-## Deploying your Move code
+The base dApp was created using the `@mysten/create-dapp` kit which sets up a basic React
+Client dApp that communicates with your Sui Wallet.
+
+A Move package was developed for the Frens mint which allows for dynamic fields, the description, trait and url of the NFTs can be updated via the Smart Contract. A one time witness is used to estalish the Publisher of the collection.
+
+The NFT smart contract utilises the Sui Object Display standard which is a template engine that enables on-chain management of off-chain representation (display) for a type. [More info](https://docs.sui.io/standards/display)
+
+This project was a first attempt at working with Sui, Move and React.js so includes a very simple frontend that integrates with Sui Network. All in all it was a fun learning experience and look forward to exploring Sui more in the future.
+
+Regards WebMoss
+
+## Deploying the Project
+
+If you would like to install the application please follow the directions below.
 
 ### Install Sui cli
 

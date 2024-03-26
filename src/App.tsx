@@ -35,6 +35,7 @@ function App() {
   const [digest, setDigest] = useState('');
   const [nftObjectId, setNftObjectId] = useState('');
   const [mintImage, setMintImage] = useState('');
+  const [claimed, setClaimed] = useState(false);
 
 
   function mint_nft() {
@@ -314,9 +315,9 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      WTF? You just max minted!<br />Claim your <Strong>Prize</Strong> new fren!
+                      Thank for minting a Fren!<br />Claim your <Strong>Prize</Strong> next.
                     </Heading>
-                    {nftObjectId && (
+                    {nftObjectId && !claimed && (
                       <Box style={{margin: '20px', textAlign: 'center' }}>
                         <Button
                           size="4"
