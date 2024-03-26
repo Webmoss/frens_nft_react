@@ -3,7 +3,7 @@ import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, us
   // useSuiClientQuery, 
   // useSuiClientContext 
 } from "@mysten/dapp-kit";
-import { Box, Button, Grid, Container, Flex, Heading, Text, Strong } from "@radix-ui/themes";
+import { Box, Button, Grid, Container, Flex, Heading, Text } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
@@ -35,7 +35,7 @@ function App() {
   const [digest, setDigest] = useState('');
   const [nftObjectId, setNftObjectId] = useState('');
   const [mintImage, setMintImage] = useState('');
-  const [claimed, setClaimed] = useState(false);
+  const [claimed] = useState(false);
 
 
   function mint_nft() {
@@ -227,11 +227,11 @@ function App() {
             onClick={() => { setPage("home") }}
           >Collection</button>
           
-          {nftObjectId && (
+          {/* {nftObjectId && (
             <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
               onClick={() => { setPage("claim") }}
             >Claim</button>
-          )}
+          )} */}
         </Box>
         <Box>
           <ConnectButton />
@@ -281,7 +281,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      Welcome to LOR3LORD's Frens
+                      Welcome to LOR3LORD's Frens free mint!
                     </Heading>
                   </Box>
                   <Box style={{ marginTop: '20px' }}>
@@ -315,7 +315,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      Thank for minting a Fren!<br />Claim your <Strong>Prize</Strong> next.
+                      Thanks for minting a new Fren<br />
                     </Heading>
                     {nftObjectId && !claimed && (
                       <Box style={{margin: '20px', textAlign: 'center' }}>
@@ -325,7 +325,7 @@ function App() {
                             claim_nft();
                           }}
                         >
-                          Claim Prize
+                          Bonus
                         </Button>
                       </Box>        
                     )}
@@ -365,7 +365,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      A Sui NFT project by LOR3LORD
+                      A Sui NFT project by LOR3LORD for ThinkSui
                     </Heading>
                   </Box>
                   <Box style={{ marginTop: '20px' }}>
@@ -380,7 +380,7 @@ function App() {
                   <Box>
                     <Heading
                       style={{
-                        fontSize: "18px",
+                        fontSize: "17px",
                         color: "#ffffff",
                         paddingTop: '20px',
                         paddingBottom: '10px',

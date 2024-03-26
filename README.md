@@ -11,7 +11,10 @@ A Move package was developed for the Frens mint which allows for dynamic fields,
 
 The NFT smart contract utilises the Sui Object Display standard which is a template engine that enables on-chain management of off-chain representation (display) for a type. [More info](https://docs.sui.io/standards/display)
 
-This project was a first attempt at working with Sui, Move and React.js so includes a very simple frontend that integrates with Sui Network. All in all it was a fun learning experience and look forward to exploring Sui more in the future.
+This project was my first attempt at working with Sui, Move and React.js so includes a very simple frontend that integrates with the Sui Network. All in all it was a fun learning experience and I look forward to exploring Sui more in the future.
+
+ARTWORK
+All artwork is stored on IPFS via Pinata and was created by [LOR3LORD](https://twitter.com/LOR3LORD).
 
 Regards WebMoss
 
