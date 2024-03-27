@@ -20,7 +20,7 @@ Regards WebMoss
 
 ## Deploying the Project
 
-If you would like to install the application please follow the directions below.
+If you would like to install the application please follow the directions below. To view the published Move contracts for the Frens mint visit constants.ts
 
 ### Install Sui cli
 

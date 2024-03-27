@@ -170,7 +170,7 @@ function App() {
   //     <ul>
   //       {data.data.map((object) => (
   //         <li key={object.data?.objectId}>
-  //           <a href={`https://suiscan.xyz/testnet/object/${object.data?.objectId}`} target="_blank">
+  //           <a href={`https://suiscan.xyz/mainnet/object/${object.data?.objectId}`} target="_blank">
   //             {object.data?.objectId}
   //           </a>
   //         </li>
