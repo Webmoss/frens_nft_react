@@ -21,6 +21,32 @@ import frensGallery6 from './assets/images/LOR3LORD.png';
 import frensGallery7 from './assets/images/LEGION-OF-DEGENS.png';
 import frensGallery8 from './assets/images/PLANET-X.png';
 import frensGallery9 from './assets/images/SHINE-BRIGHT.png';
+import frensGallery10 from './assets/images/THE-BAG.png';
+import frensGallery11 from './assets/images/FOMO.png';
+import frensGallery12 from './assets/images/THEY-DO-EXIST.png';
+import frensGallery13 from './assets/images/ZIRCONIUM.png';
+import frensGallery14 from './assets/images/MIC.png';
+import frensGallery15 from './assets/images/GARY.png';
+import frensGallery16 from './assets/images/DOWN-BAD-BUNNY.png';
+
+import homeGallery2 from './assets/images/HODL1.png';
+import homeGallery3 from './assets/images/MOONING.png';
+import homeGallery4 from './assets/images/MAYHEM1.png';
+
+import homeGallery5 from './assets/images/LORE1.png';
+import homeGallery6 from './assets/images/HODL2.png';
+import homeGallery7 from './assets/images/LORE3.png';
+import homeGallery8 from './assets/images/LORE4.png';
+
+import homeGallery9 from './assets/images/MAYHEM2.png';
+import homeGallery10 from './assets/images/HODL3.png';
+import homeGallery11 from './assets/images/MAYHEM3.png';
+import homeGallery12 from './assets/images/MAYHEM6.png';
+
+import homeGallery13 from './assets/images/MAYHEM4.png';
+import homeGallery14 from './assets/images/HODL4.png';
+import homeGallery15 from './assets/images/LOR3LORD.png';
+import homeGallery16 from './assets/images/MAYHEM5.png';
 
 function App() {
 
@@ -246,7 +272,7 @@ function App() {
         {page === 'home' ? (
           <Box>
             <Container size="1">
-              <Grid columns="3" gap="3" width="auto">
+              <Grid columns="4" gap="3" width="auto">
                 <Box><img src={frensGallery1} alt="Logo" /></Box>
                 <Box><img src={frensGallery2} alt="Logo" /></Box>
                 <Box><img src={frensGallery3} alt="Logo" /></Box>
@@ -256,6 +282,13 @@ function App() {
                 <Box><img src={frensGallery7} alt="Logo" /></Box>
                 <Box><img src={frensGallery8} alt="Logo" /></Box>
                 <Box><img src={frensGallery9} alt="Logo" /></Box>
+                <Box><img src={frensGallery10} alt="Logo" /></Box>
+                <Box><img src={frensGallery11} alt="Logo" /></Box>
+                <Box><img src={frensGallery12} alt="Logo" /></Box>
+                <Box><img src={frensGallery13} alt="Logo" /></Box>
+                <Box><img src={frensGallery14} alt="Logo" /></Box>
+                <Box><img src={frensGallery15} alt="Logo" /></Box>
+                <Box><img src={frensGallery16} alt="Logo" /></Box>
              </Grid>
            </Container>
          </Box>
@@ -275,25 +308,58 @@ function App() {
                   <Box>
                     <Heading
                       style={{
-                        fontSize: "22px",
+                        fontSize: "24px",
                         color: "#ffffff",
                         marginTop: '20px',
                         textAlign: "center"
                       }}
                     >
-                      Welcome to LOR3LORD's Frens free mint!
+                      Welcome to LOR3LORD's Frens
+                    </Heading>
+                    <Heading
+                      style={{
+                        fontSize: "18px",
+                        color: "#ffffff",
+                        marginTop: '10px',
+                        textAlign: "center"
+                      }}
+                    >
+                      Mint 3 new Frens and then your Bonus to claim your Sui Prize<br />
                     </Heading>
                   </Box>
-                  <Box style={{ marginTop: '20px' }}>
-                    <Container size="1">
-                      <img 
-                        src={mintImage || frensLogo} 
-                        alt="Logo" 
-                        width="500px" 
-                      />
+                  
+                  { mintImage ? (
+                    <Box style={{ marginTop: '20px' }}>
+                      <Container size="1">
+                        <img 
+                          src={mintImage} 
+                          alt="Logo" 
+                          width="500px" 
+                        />
+                      </Container>
+                    </Box>
+                  ) : (
+                    <Container style={{ marginTop: '30px' }} size="1">
+                      <Grid columns="4" gap="3" width="auto">
+                        <Box><img src={frensLogo} alt="Logo" /></Box>
+                        <Box><img src={homeGallery2} alt="Logo" /></Box>
+                        <Box><img src={homeGallery3} alt="Logo" /></Box>
+                        <Box><img src={homeGallery4} alt="Logo" /></Box>
+                        <Box><img src={homeGallery5} alt="Logo" /></Box>
+                        <Box><img src={homeGallery6} alt="Logo" /></Box>
+                        <Box><img src={homeGallery7} alt="Logo" /></Box>
+                        <Box><img src={homeGallery8} alt="Logo" /></Box>
+                        <Box><img src={homeGallery9} alt="Logo" /></Box>
+                        <Box><img src={homeGallery10} alt="Logo" /></Box>
+                        <Box><img src={homeGallery11} alt="Logo" /></Box>
+                        <Box><img src={homeGallery12} alt="Logo" /></Box>
+                        <Box><img src={homeGallery13} alt="Logo" /></Box>
+                        <Box><img src={homeGallery14} alt="Logo" /></Box>
+                        <Box><img src={homeGallery15} alt="Logo" /></Box>
+                        <Box><img src={homeGallery16} alt="Logo" /></Box>
+                      </Grid>
                     </Container>
-                  </Box>
-
+                  )}   
                   {mintCount <= 2 ? (
                     <Box style={{margin: '20px'}}>
                       <Button
