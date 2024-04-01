@@ -342,7 +342,7 @@ function App() {
                     >
                       Mint 3 Frens NFTs to claim your Bonus Letter<br />
                       Collect all the letters and spell LOR3, LORD, HODL, CHAOS<br /> or MAYHEM
-                      and win a Bonus Prize in Sui
+                      and win a Bonus Prize in Sui.<br /> Minting is 100% FREE, only pay for gas
                     </Heading>
                   </Box>
                   {mintCount <= 2 ? (
