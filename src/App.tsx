@@ -1,15 +1,16 @@
-import { TransactionBlock } from "@mysten/sui.js/transactions";
-import { ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient, 
+// import { TransactionBlock } from "@mysten/sui.js/transactions";
+import { ConnectButton, useCurrentAccount, 
+  // useSignAndExecuteTransactionBlock, useSuiClient, 
   // useSuiClientQuery, 
   // useSuiClientContext 
 } from "@mysten/dapp-kit";
-import { Box, Button, Grid, Container, Flex, Heading, Text } from "@radix-ui/themes";
-import { useNetworkVariable } from "./networkConfig";
+import { Box, Grid, Container, Flex, Heading, Text } from "@radix-ui/themes";
+// import { useNetworkVariable } from "./networkConfig";
 import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
-import data from "./data/frens-metadata.json";
-import prizes from "./data/prizes-metadata.json";
+// import data from "./data/frens-metadata.json";
+// import prizes from "./data/prizes-metadata.json";
 
 import frensGallery1 from './assets/images/KING.png';
 import frensGallery2 from './assets/images/ECANEM.png';
@@ -72,133 +73,140 @@ import homeGallery36 from './assets/images/MAYHEM6.png';
 
 function App() {
 
-  const client = useSuiClient();
-  const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
+  // const client = useSuiClient();
+  // const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   
-  const minterPackageId = useNetworkVariable("minterPackageId");
+  // const minterPackageId = useNetworkVariable("minterPackageId");
   const currentAccount = useCurrentAccount();
   
   const [page] = useState('mint');
-  const [mintCount, setMintCount] = useState(0);
-  const [digest, setDigest] = useState('');
-  const [nftObjectId, setNftObjectId] = useState('');
-  const [mintImage, setMintImage] = useState('');
-  const [claimed, setClaimed] = useState(false);
+  const [mintCount] = useState(0);
+  // const [digest, setDigest] = useState('');
+  const [nftObjectId] = useState('');
+  const [mintImage] = useState('');
+  const [claimed] = useState(false);
+
+  // const [page] = useState('mint');
+  // const [mintCount, setMintCount] = useState(0);
+  // const [digest, setDigest] = useState('');
+  // const [nftObjectId, setNftObjectId] = useState('');
+  // const [mintImage, setMintImage] = useState('');
+  // const [claimed, setClaimed] = useState(false);
 
 
-  function mint_nft() {
+  // function mint_nft() {
 
-    const frensData = data.frens as any;
-    let keys = Object.keys(frensData);
-    let randomProperty = keys[Math.floor(keys.length*Math.random())]
-    let fren = frensData[randomProperty]
+  //   const frensData = data.frens as any;
+  //   let keys = Object.keys(frensData);
+  //   let randomProperty = keys[Math.floor(keys.length*Math.random())]
+  //   let fren = frensData[randomProperty]
 
-    try {
-      const txb = new TransactionBlock();
-      txb.moveCall({
-        target: `${minterPackageId}::frens::mint_to_sender`,
-        arguments: [
-          txb.pure.string(fren.name),
-          txb.pure.string(fren.description),
-          txb.pure.string(fren.trait),
-          txb.pure.string(fren.image_ipfs)
-        ],        
-      });
-      signAndExecute(
-        {
-          transactionBlock: txb,
-          options: {
-            showEffects: true,
-            showObjectChanges: true,
-          },
-        },
-        {
-          onSuccess: (tx) => {
-            client
-              .waitForTransactionBlock({
-                digest: tx.digest,
-              })
-              .then(() => {
-                const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
-                if (nftObjectId) {
-                  setNftObjectId(nftObjectId)
-                }
-                const txnDigest = tx.digest;
-                if (txnDigest) {
-                  setDigest(txnDigest);
-                  console.log("digest", digest);
-                  setMintCount( mintCount + 1 );
-                }
-                setMintImage(fren.image_url);
-                toast.success('Successfully minted a new Fren');
-              }
-            );
-          },
-        },
-      );
-    } catch (error) {
-      console.error(error);
-      toast.error('Error minting a new Fren');
-    }   
-  }
+  //   try {
+  //     const txb = new TransactionBlock();
+  //     txb.moveCall({
+  //       target: `${minterPackageId}::frens::mint_to_sender`,
+  //       arguments: [
+  //         txb.pure.string(fren.name),
+  //         txb.pure.string(fren.description),
+  //         txb.pure.string(fren.trait),
+  //         txb.pure.string(fren.image_ipfs)
+  //       ],        
+  //     });
+  //     signAndExecute(
+  //       {
+  //         transactionBlock: txb,
+  //         options: {
+  //           showEffects: true,
+  //           showObjectChanges: true,
+  //         },
+  //       },
+  //       {
+  //         onSuccess: (tx) => {
+  //           client
+  //             .waitForTransactionBlock({
+  //               digest: tx.digest,
+  //             })
+  //             .then(() => {
+  //               const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
+  //               if (nftObjectId) {
+  //                 setNftObjectId(nftObjectId)
+  //               }
+  //               const txnDigest = tx.digest;
+  //               if (txnDigest) {
+  //                 setDigest(txnDigest);
+  //                 console.log("digest", digest);
+  //                 setMintCount( mintCount + 1 );
+  //               }
+  //               setMintImage(fren.image_url);
+  //               toast.success('Successfully minted a new Fren');
+  //             }
+  //           );
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error('Error minting a new Fren');
+  //   }   
+  // }
 
-  function claim_nft() {
+  // function claim_nft() {
 
-    const frensPrizes = prizes.frens as any;
-    var keys = Object.keys(frensPrizes);
-    var randomProperty = keys[Math.floor(keys.length*Math.random())]
-    var prize = frensPrizes[randomProperty]
-    console.log("Fren Prize", prize);
+  //   const frensPrizes = prizes.frens as any;
+  //   var keys = Object.keys(frensPrizes);
+  //   var randomProperty = keys[Math.floor(keys.length*Math.random())]
+  //   var prize = frensPrizes[randomProperty]
+  //   console.log("Fren Prize", prize);
     
-    try {
-      const txb = new TransactionBlock();
-      txb.moveCall({
-        target: `${minterPackageId}::frens::mint_to_sender`,
-        arguments: [
-          txb.pure.string(prize.name),
-          txb.pure.string(prize.description),
-          txb.pure.string(prize.trait),
-          txb.pure.string(prize.image_ipfs)
-        ],        
-      });
-      signAndExecute(
-        {
-          transactionBlock: txb,
-          options: {
-            showEffects: true,
-            showObjectChanges: true,
-          },
-        },
-        {
-          onSuccess: (tx) => {
-            client
-              .waitForTransactionBlock({
-                digest: tx.digest,
-              })
-              .then(() => {
-                const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
-                if (nftObjectId) {
-                  console.log("Nft Object Id", nftObjectId);
-                  setNftObjectId(nftObjectId)
-                }
+  //   try {
+  //     const txb = new TransactionBlock();
+  //     txb.moveCall({
+  //       target: `${minterPackageId}::frens::mint_to_sender`,
+  //       arguments: [
+  //         txb.pure.string(prize.name),
+  //         txb.pure.string(prize.description),
+  //         txb.pure.string(prize.trait),
+  //         txb.pure.string(prize.image_ipfs)
+  //       ],        
+  //     });
+  //     signAndExecute(
+  //       {
+  //         transactionBlock: txb,
+  //         options: {
+  //           showEffects: true,
+  //           showObjectChanges: true,
+  //         },
+  //       },
+  //       {
+  //         onSuccess: (tx) => {
+  //           client
+  //             .waitForTransactionBlock({
+  //               digest: tx.digest,
+  //             })
+  //             .then(() => {
+  //               const nftObjectId = tx.effects?.created?.[0]?.reference?.objectId;
+  //               if (nftObjectId) {
+  //                 console.log("Nft Object Id", nftObjectId);
+  //                 setNftObjectId(nftObjectId)
+  //               }
 
-                const txnDigest = tx.digest;
-                if (txnDigest) {
-                  setDigest(txnDigest);
-                  setClaimed( true );
-                }
-                setMintImage(prize.image_url);
-                toast.success('Congrats Fren, you claimed a Bonus Letter. Reload the page to try again!');
-              }
-            );
-          },
-        },
-      );
-    } catch (error) {
-      console.error(error);
-      toast.error('Error minting a new Fren');
-    }   
-  }
+  //               const txnDigest = tx.digest;
+  //               if (txnDigest) {
+  //                 setDigest(txnDigest);
+  //                 setClaimed( true );
+  //               }
+  //               setMintImage(prize.image_url);
+  //               toast.success('Congrats Fren, you claimed a Bonus Letter. Reload the page to try again!');
+  //             }
+  //           );
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error('Error minting a new Fren');
+  //   }   
+  // }
 
   // function OwnedObjects({ address }: { address: string }) {
   //   const { data } = useSuiClientQuery('getOwnedObjects', {
@@ -342,7 +350,7 @@ function App() {
                     >
                       Mint 3 Frens NFTs to claim your Bonus Letter<br />
                       Collect all the letters and spell LOR3, LORD, HODL, CHAOS<br /> or MAYHEM
-                      and win a Bonus Prize in Sui.<br /> Minting is 100% FREE, only pay for gas
+                      and win a Bonus Prize in Sui.<br /> Minting is completed now
                     </Heading>
                   </Box>
                   {mintCount <= 2 ? (
