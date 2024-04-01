@@ -347,14 +347,15 @@ function App() {
                   </Box>
                   {mintCount <= 2 ? (
                     <Box style={{margin: '30px'}}>
-                      <Button
+                      {/* <Button
                         size="4"
                         onClick={() => {
                           mint_nft();
                         }}
                       >
                         Mint Frens
-                      </Button>
+                      </Button> */}
+                      Mint Completed
                     </Box>        
                   ) : ( 
                     <Box>
@@ -370,14 +371,14 @@ function App() {
                     </Heading>
                     {nftObjectId && !claimed && (
                       <Box style={{margin: '20px', textAlign: 'center' }}>
-                        <Button
+                        {/* <Button
                           size="4"
                           onClick={() => {
                             claim_nft();
                           }}
                         >
                           Claim
-                        </Button>
+                        </Button> */}
                       </Box>        
                     )}
                     </Box>        
