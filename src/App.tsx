@@ -499,7 +499,7 @@ function App() {
                       />
                     </Container>
                   </Box>
-                  <Box>
+                  {/* <Box>
                     <Heading
                       style={{
                         fontSize: "17px",
@@ -511,7 +511,7 @@ function App() {
                     >
                       Please connect your Sui wallet to begin
                     </Heading>
-                  </Box>
+                  </Box> */}
                 </Flex>
               </Container>
             )}
