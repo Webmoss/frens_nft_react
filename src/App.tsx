@@ -366,7 +366,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      Thanks for minting Frens<br />
+                      Thanks for minting Frens,<br /> reload your browser to run it again!
                     </Heading>
                     {nftObjectId && !claimed && (
                       <Box style={{margin: '20px', textAlign: 'center' }}>
@@ -508,7 +508,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      Please connect your Sui wallet to continue...
+                      Please connect your Sui wallet to begin
                     </Heading>
                   </Box>
                 </Flex>
