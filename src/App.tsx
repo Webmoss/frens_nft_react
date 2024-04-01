@@ -11,7 +11,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import data from "./data/frens-metadata.json";
 import prizes from "./data/prizes-metadata.json";
 
-import frensLogo from './assets/images/Frens-NFT-Logo.png';
 import frensGallery1 from './assets/images/KING.png';
 import frensGallery2 from './assets/images/ECANEM.png';
 import frensGallery3 from './assets/images/MOONING.png';
@@ -20,7 +19,7 @@ import frensGallery5 from './assets/images/FIRE.png';
 import frensGallery6 from './assets/images/LOR3LORD.png';
 import frensGallery7 from './assets/images/LEGION-OF-DEGENS.png';
 import frensGallery8 from './assets/images/PLANET-X.png';
-import frensGallery9 from './assets/images/SHINE-BRIGHT.png';
+import frensGallery9 from './assets/images/TWITTERS_DED.png';
 import frensGallery10 from './assets/images/THE-BAG.png';
 import frensGallery11 from './assets/images/FOMO.png';
 import frensGallery12 from './assets/images/THEY-DO-EXIST.png';
@@ -29,24 +28,47 @@ import frensGallery14 from './assets/images/MIC.png';
 import frensGallery15 from './assets/images/GARY.png';
 import frensGallery16 from './assets/images/DOWN-BAD-BUNNY.png';
 
-import homeGallery2 from './assets/images/HODL1.png';
-import homeGallery3 from './assets/images/MOONING.png';
-import homeGallery4 from './assets/images/MAYHEM1.png';
+import frensLogo from './assets/images/Frens-NFT-Logo.png';
+import homeGallery2 from './assets/images/LORE1.png';
+// import homeGallery3 from './assets/images/LEGION-OF-DEGENS.png';
+import homeGallery4 from './assets/images/THINK_SUI.png';
+import homeGallery5 from './assets/images/SHINE-BRIGHT.png';
+import homeGallery6 from './assets/images/CHAOS1.png';
 
-import homeGallery5 from './assets/images/LORE1.png';
-import homeGallery6 from './assets/images/HODL2.png';
-import homeGallery7 from './assets/images/LORE3.png';
-import homeGallery8 from './assets/images/LORE4.png';
+import homeGallery7 from './assets/images/BA_NA_NA_NA.png';
+import homeGallery8 from './assets/images/LORE2.png';
+import homeGallery9 from './assets/images/MIC.png';
+import homeGallery10 from './assets/images/LORD1.png';
+import homeGallery11 from './assets/images/LEGION-OF-DEGENS.png';
+import homeGallery12 from './assets/images/CHAOS2.png';
 
-import homeGallery9 from './assets/images/MAYHEM2.png';
-import homeGallery10 from './assets/images/HODL3.png';
-import homeGallery11 from './assets/images/MAYHEM3.png';
-import homeGallery12 from './assets/images/MAYHEM6.png';
+import homeGallery13 from './assets/images/WARCHEST.png';
+import homeGallery14 from './assets/images/LORE3.png';
+import homeGallery15 from './assets/images/TORNADO_CASH.png';
+import homeGallery16 from './assets/images/LORD2.png';
+import homeGallery17 from './assets/images/SHT_COINS.png';
+import homeGallery18 from './assets/images/CHAOS3.png';
 
-import homeGallery13 from './assets/images/MAYHEM4.png';
-import homeGallery14 from './assets/images/HODL4.png';
-import homeGallery15 from './assets/images/LOR3LORD.png';
-import homeGallery16 from './assets/images/MAYHEM5.png';
+import homeGallery19 from './assets/images/WEB3_FASHION.png';
+import homeGallery20 from './assets/images/LORE4.png';
+import homeGallery21 from './assets/images/ZIRCONIUM.png';
+import homeGallery22 from './assets/images/LORD3.png';
+import homeGallery23 from './assets/images/WILD_RIDE.png';
+import homeGallery24 from './assets/images/CHAOS4.png';
+
+import homeGallery25 from './assets/images/MOONING.png';
+import homeGallery26 from './assets/images/HODL1.png';
+import homeGallery27 from './assets/images/HODL2.png';
+import homeGallery28 from './assets/images/LORD4.png';
+import homeGallery29 from './assets/images/HODL4.png';
+import homeGallery30 from './assets/images/CHAOS5.png';
+
+import homeGallery31 from './assets/images/MAYHEM1.png';
+import homeGallery32 from './assets/images/MAYHEM2.png';
+import homeGallery33 from './assets/images/MAYHEM3.png';
+import homeGallery34 from './assets/images/MAYHEM4.png';
+import homeGallery35 from './assets/images/MAYHEM5.png';
+import homeGallery36 from './assets/images/MAYHEM6.png';
 
 function App() {
 
@@ -56,12 +78,12 @@ function App() {
   const minterPackageId = useNetworkVariable("minterPackageId");
   const currentAccount = useCurrentAccount();
   
-  const [page, setPage] = useState('mint');
+  const [page] = useState('mint');
   const [mintCount, setMintCount] = useState(0);
   const [digest, setDigest] = useState('');
   const [nftObjectId, setNftObjectId] = useState('');
   const [mintImage, setMintImage] = useState('');
-  const [claimed] = useState(false);
+  const [claimed, setClaimed] = useState(false);
 
 
   function mint_nft() {
@@ -163,10 +185,10 @@ function App() {
                 const txnDigest = tx.digest;
                 if (txnDigest) {
                   setDigest(txnDigest);
-                  setMintCount( mintCount + 1 );
+                  setClaimed( true );
                 }
                 setMintImage(prize.image_url);
-                toast.success('Congrats Fren, you won a prize!');
+                toast.success('Congrats Fren, you claimed a Bonus Letter. Reload the page to try again!');
               }
             );
           },
@@ -224,7 +246,7 @@ function App() {
       return null;
     }
     return (
-      <Box style={{ color: "#ffffff"}}>
+      <Box style={{ color: "#ffffff", marginTop: '20px'}}>
         <Text as="p">Connected: {account.address}</Text>
       </Box>         
     );
@@ -245,20 +267,14 @@ function App() {
             Frens NFT
           </Heading>
         </Box>
-        <Box>
+        {/* <Box>
         <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => { setPage("mint") }}
           >Mint</button>
           <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => { setPage("home") }}
           >Collection</button>
-          
-          {/* {nftObjectId && (
-            <button style={{ border: "none", backgroundColor: "transparent", color: "#ffffff", fontWeight: "600", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
-              onClick={() => { setPage("claim") }}
-            >Claim</button>
-          )} */}
-        </Box>
+        </Box> */}
         <Box>
           <ConnectButton />
         </Box>        
@@ -324,51 +340,20 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      Mint 3 new Frens and then your Bonus to claim your Sui Prize<br />
+                      Mint 3 Frens NFTs to claim your Bonus Letter<br />
+                      Collect all the letters and spell LOR3, LORD, HODL, CHAOS<br /> or MAYHEM
+                      and win a Bonus Prize in Sui
                     </Heading>
                   </Box>
-                  
-                  { mintImage ? (
-                    <Box style={{ marginTop: '20px' }}>
-                      <Container size="1">
-                        <img 
-                          src={mintImage} 
-                          alt="Logo" 
-                          width="500px" 
-                        />
-                      </Container>
-                    </Box>
-                  ) : (
-                    <Container style={{ marginTop: '30px' }} size="1">
-                      <Grid columns="4" gap="3" width="auto">
-                        <Box><img src={frensLogo} alt="Logo" /></Box>
-                        <Box><img src={homeGallery2} alt="Logo" /></Box>
-                        <Box><img src={homeGallery3} alt="Logo" /></Box>
-                        <Box><img src={homeGallery4} alt="Logo" /></Box>
-                        <Box><img src={homeGallery5} alt="Logo" /></Box>
-                        <Box><img src={homeGallery6} alt="Logo" /></Box>
-                        <Box><img src={homeGallery7} alt="Logo" /></Box>
-                        <Box><img src={homeGallery8} alt="Logo" /></Box>
-                        <Box><img src={homeGallery9} alt="Logo" /></Box>
-                        <Box><img src={homeGallery10} alt="Logo" /></Box>
-                        <Box><img src={homeGallery11} alt="Logo" /></Box>
-                        <Box><img src={homeGallery12} alt="Logo" /></Box>
-                        <Box><img src={homeGallery13} alt="Logo" /></Box>
-                        <Box><img src={homeGallery14} alt="Logo" /></Box>
-                        <Box><img src={homeGallery15} alt="Logo" /></Box>
-                        <Box><img src={homeGallery16} alt="Logo" /></Box>
-                      </Grid>
-                    </Container>
-                  )}   
                   {mintCount <= 2 ? (
-                    <Box style={{margin: '20px'}}>
+                    <Box style={{margin: '30px'}}>
                       <Button
                         size="4"
                         onClick={() => {
                           mint_nft();
                         }}
                       >
-                        Mint a Fren
+                        Mint Frens
                       </Button>
                     </Box>        
                   ) : ( 
@@ -381,7 +366,7 @@ function App() {
                         textAlign: "center"
                       }}
                     >
-                      Thanks for minting a new Fren<br />
+                      Thanks for minting Frens<br />
                     </Heading>
                     {nftObjectId && !claimed && (
                       <Box style={{margin: '20px', textAlign: 'center' }}>
@@ -391,12 +376,82 @@ function App() {
                             claim_nft();
                           }}
                         >
-                          Bonus
+                          Claim
                         </Button>
                       </Box>        
                     )}
                     </Box>        
-                  )}            
+                  )} 
+                  { mintImage ? (
+                    <Box style={{ marginTop: '20px' }}>
+                      <Container size="1">
+                        <img 
+                          src={mintImage} 
+                          alt="Logo" 
+                          width="500px" 
+                        />
+                      </Container>
+                    </Box>
+                  ) : (
+                    <Container style={{ marginTop: '0' }} size="1">
+                      <Grid columns="6" gap="3" width="auto">
+                        <Box><img src={frensLogo} alt="Logo" /></Box>
+                        <Box><img src={homeGallery2} alt="Logo" /></Box>
+                        <Box><img src={frensGallery16} alt="Logo" /></Box>
+                        <Box><img src={homeGallery4} alt="Logo" /></Box>
+                        <Box><img src={homeGallery5} alt="Logo" /></Box>
+                        <Box><img src={homeGallery6} alt="Logo" /></Box>
+                        <Box><img src={homeGallery7} alt="Logo" /></Box>
+                        <Box><img src={homeGallery8} alt="Logo" /></Box>
+                        <Box><img src={homeGallery9} alt="Logo" /></Box>
+                        <Box><img src={homeGallery10} alt="Logo" /></Box>
+                        <Box><img src={homeGallery11} alt="Logo" /></Box>
+                        <Box><img src={homeGallery12} alt="Logo" /></Box>
+                        
+                        <Box><img src={homeGallery13} alt="Logo" /></Box>
+                        <Box><img src={homeGallery14} alt="Logo" /></Box>
+                        <Box><img src={homeGallery15} alt="Logo" /></Box>
+                        <Box><img src={homeGallery16} alt="Logo" /></Box>
+                        <Box><img src={homeGallery17} alt="Logo" /></Box>
+                        <Box><img src={homeGallery18} alt="Logo" /></Box>
+                        
+                        <Box><img src={homeGallery19} alt="Logo" /></Box>
+                        <Box><img src={homeGallery20} alt="Logo" /></Box>
+                        <Box><img src={homeGallery21} alt="Logo" /></Box>
+                        <Box><img src={homeGallery22} alt="Logo" /></Box>
+                        <Box><img src={homeGallery23} alt="Logo" /></Box>
+                        <Box><img src={homeGallery24} alt="Logo" /></Box>
+                        
+                        <Box><img src={homeGallery25} alt="Logo" /></Box>
+                        <Box><img src={homeGallery26} alt="Logo" /></Box>
+                        <Box><img src={homeGallery27} alt="Logo" /></Box>
+                        <Box><img src={homeGallery28} alt="Logo" /></Box>
+                        <Box><img src={homeGallery29} alt="Logo" /></Box>
+                        <Box><img src={homeGallery30} alt="Logo" /></Box>
+
+                        <Box><img src={frensGallery1} alt="Logo" /></Box>
+                        <Box><img src={frensGallery2} alt="Logo" /></Box>
+                        <Box><img src={frensGallery4} alt="Logo" /></Box>
+                        <Box><img src={frensGallery5} alt="Logo" /></Box>
+                        <Box><img src={frensGallery6} alt="Logo" /></Box>
+                        <Box><img src={frensGallery8} alt="Logo" /></Box>
+
+                        <Box><img src={homeGallery31} alt="Logo" /></Box>
+                        <Box><img src={homeGallery32} alt="Logo" /></Box>
+                        <Box><img src={homeGallery33} alt="Logo" /></Box>
+                        <Box><img src={homeGallery34} alt="Logo" /></Box>
+                        <Box><img src={homeGallery35} alt="Logo" /></Box>
+                        <Box><img src={homeGallery36} alt="Logo" /></Box>
+                        
+                        <Box><img src={frensGallery9} alt="Logo" /></Box>
+                        <Box><img src={frensGallery10} alt="Logo" /></Box>
+                        <Box><img src={frensGallery11} alt="Logo" /></Box>
+                        <Box><img src={frensGallery12} alt="Logo" /></Box>
+                        <Box><img src={frensGallery13} alt="Logo" /></Box>
+                        <Box><img src={frensGallery15} alt="Logo" /></Box>                        
+                      </Grid>
+                    </Container>
+                  )}                               
                   {/* DEV STUFF to Remove */}
                   {/* <NetworkSelector /> */}
                   <ConnectedAccount />
